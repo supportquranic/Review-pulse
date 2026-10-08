@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS public.profiles (
   city TEXT DEFAULT '',
   google_review_link TEXT NOT NULL,
   preferred_language TEXT DEFAULT 'en',
+  discount_percentage INTEGER DEFAULT 0,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
