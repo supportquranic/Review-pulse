@@ -209,19 +209,19 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-[#f8fafd] text-[#1f1f1f] flex flex-col justify-between selection:bg-[#e8f0fe] selection:text-[#0b57d0]">
       {/* Top Navbar */}
-      <header className="h-20 bg-white/90 backdrop-blur-md border-b border-[#e1e3e1] px-6 lg:px-16 flex items-center justify-between sticky top-0 z-50">
+      <header className="h-20 lg:h-22 bg-white/90 backdrop-blur-md border-b border-[#e1e3e1] px-6 lg:px-16 flex items-center justify-between sticky top-0 z-50">
         {/* Pure text typographic logo - No icon */}
         <Link href="/" className="flex flex-col select-none">
-          <span className="font-extrabold text-2xl tracking-tight text-[#1f1f1f]">
+          <span className="font-extrabold text-2xl lg:text-[26px] tracking-tight text-[#1f1f1f]">
             Review<span className="text-[#0b57d0]">Pulse</span>
           </span>
-          <span className="text-[10px] text-[#747775] font-medium -mt-1 tracking-wide">
+          <span className="text-[11px] text-[#747775] font-medium -mt-1 tracking-wide">
             Automated Google Reviews
           </span>
         </Link>
 
-        {/* Center Nav Links */}
-        <nav className="hidden md:flex items-center gap-8 text-xs font-semibold text-[#444746]">
+        {/* Center Nav Links - Bigger & Clearer */}
+        <nav className="hidden md:flex items-center gap-9 text-sm font-semibold text-[#444746]">
           <a href="#features" className="hover:text-[#0b57d0] transition-colors">
             Features
           </a>
@@ -239,20 +239,20 @@ export default function HomePage() {
           </Link>
         </nav>
 
-        {/* Action Buttons */}
-        <div className="flex items-center gap-3">
+        {/* Action Buttons - Bigger & Bolder */}
+        <div className="flex items-center gap-3.5">
           <Link
             href="/auth/login"
-            className="px-4 py-2 text-xs font-semibold text-[#444746] hover:text-[#1f1f1f] transition-colors"
+            className="px-5 py-2.5 text-sm font-semibold text-[#444746] hover:text-[#1f1f1f] transition-colors"
           >
             Sign In
           </Link>
           <Link
             href="/dashboard"
-            className="flex items-center gap-2 px-5 py-2.5 bg-[#0b57d0] hover:bg-[#0842a0] text-white rounded-full font-semibold text-xs shadow-xs hover:shadow-md transition-all active:scale-[0.98]"
+            className="flex items-center gap-2 px-6 py-3 bg-[#0b57d0] hover:bg-[#0842a0] text-white rounded-full font-bold text-sm shadow-xs hover:shadow-md transition-all active:scale-[0.98]"
           >
             <span>Get Started</span>
-            <ArrowRight size={14} />
+            <ArrowRight size={16} />
           </Link>
         </div>
       </header>
