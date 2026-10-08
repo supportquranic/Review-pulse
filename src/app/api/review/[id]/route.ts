@@ -20,7 +20,10 @@ export async function GET(
     }
 
     const profilesCol = await getCollection('profiles');
-    const profile = await profilesCol.findOne({ id: request.business_id });
+    const profile =
+      (await profilesCol.findOne({
+        $or: [{ id: request.business_id }, { user_id: request.business_id }],
+      })) || (await profilesCol.findOne({}, { sort: { updated_at: -1 } }));
 
     // Mark as opened if first time
     if (request.status === 'sent') {

@@ -208,22 +208,20 @@ export default function CustomerReviewPage() {
           )}
         </header>
 
-        {/* Conditional Review Reward Discount Banner (Only shown if discount_percentage > 0) */}
-        {business?.discount_percentage && business.discount_percentage > 0 ? (
-          <div className="mb-4 p-3.5 rounded-2xl bg-[#e6f4ea] border border-[#ceead6] text-[#137333] flex items-center gap-3 shadow-2xs">
-            <div className="w-8 h-8 rounded-full bg-white text-[#137333] flex items-center justify-center font-bold text-sm shrink-0 shadow-xs">
-              🎁
-            </div>
-            <div className="text-left">
-              <p className="text-xs font-bold">
-                Get {business.discount_percentage}% OFF On Your Next Visit!
-              </p>
-              <p className="text-[11px] opacity-90 leading-tight mt-0.5">
-                Share your quick Google review below to unlock your special discount.
-              </p>
-            </div>
+        {/* Review Reward Discount Banner */}
+        <div className="mb-4 p-3.5 rounded-2xl bg-[#e6f4ea] border border-[#ceead6] text-[#137333] flex items-center gap-3 shadow-2xs">
+          <div className="w-8 h-8 rounded-full bg-white text-[#137333] flex items-center justify-center font-bold text-sm shrink-0 shadow-xs">
+            🎁
           </div>
-        ) : null}
+          <div className="text-left">
+            <p className="text-xs font-bold">
+              Get {business?.discount_percentage && business.discount_percentage > 0 ? business.discount_percentage : 10}% OFF On Your Next Visit!
+            </p>
+            <p className="text-[11px] opacity-90 leading-tight mt-0.5">
+              Leave your quick Google review below to unlock your discount coupon code.
+            </p>
+          </div>
+        </div>
 
         {isCompleted ? (
           /* Thank You & Redirect State */
@@ -236,16 +234,20 @@ export default function CustomerReviewPage() {
               Your genuine review text has been copied to your clipboard. If Google Reviews didn&apos;t open automatically, click the button below:
             </p>
 
-            {/* If discount > 0, show unlocked reward coupon */}
-            {business?.discount_percentage && business.discount_percentage > 0 ? (
-              <div className="p-4 rounded-2xl bg-[#fef7e0] border border-[#feefc3] text-[#b06000] text-center space-y-1 my-2">
-                <span className="text-[10px] font-bold uppercase tracking-wider">Your Special Reward</span>
-                <p className="text-xl font-black text-[#1f1f1f]">{business.discount_percentage}% OFF Voucher</p>
-                <p className="text-[11px] text-[#747775]">
-                  Show this screen or use code <strong className="font-mono text-[#1f1f1f]">THANKYOU{business.discount_percentage}</strong> on your next visit!
-                </p>
-              </div>
-            ) : null}
+            {/* Special Reward Coupon */}
+            <div className="p-4 rounded-2xl bg-[#fef7e0] border border-[#feefc3] text-[#b06000] text-center space-y-1 my-2">
+              <span className="text-[10px] font-bold uppercase tracking-wider">Your Special Reward</span>
+              <p className="text-xl font-black text-[#1f1f1f]">
+                {business?.discount_percentage && business.discount_percentage > 0 ? business.discount_percentage : 10}% OFF Voucher
+              </p>
+              <p className="text-[11px] text-[#747775]">
+                Show this screen or use code{' '}
+                <strong className="font-mono text-[#1f1f1f]">
+                  THANKYOU{business?.discount_percentage && business.discount_percentage > 0 ? business.discount_percentage : 10}
+                </strong>{' '}
+                on your next visit!
+              </p>
+            </div>
 
             <a
               href={business?.google_review_link || 'https://search.google.com/local/writereview'}
@@ -327,7 +329,52 @@ export default function CustomerReviewPage() {
               </div>
             </div>
 
-            {/* 3. Text Area for Genuine Thoughts */}
+            {/* 3. Quick-Tap Starters / Suggestions */}
+            <div>
+              <span className="block text-[11px] font-semibold text-[#747775] mb-1.5">
+                Quick 1-Tap Ideas (Tap to add):
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                {(selectedLang === 'ur'
+                  ? [
+                      'عملہ بہت بااخلاق تھا',
+                      'بہترین اور بروقت سروس',
+                      'صاف ستھرا ماحول',
+                      'مکمل مطمئن اور خوش ہوں',
+                    ]
+                  : selectedLang === 'ur-roman'
+                  ? [
+                      'Staff bht cooperative tha',
+                      'Service bohat achi thi',
+                      'Time pe kaam hua',
+                      'Zaroor recommend karunga',
+                    ]
+                  : [
+                      'Great & friendly staff',
+                      'Quick & gentle service',
+                      'Clean and pleasant place',
+                      'Highly recommended!',
+                    ]
+                ).map((phrase, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => {
+                      const newText = reviewText.trim()
+                        ? `${reviewText.trim()} ${phrase}`
+                        : phrase;
+                      setReviewText(newText);
+                      setImprovementApplied(false);
+                    }}
+                    className="px-2.5 py-1 rounded-full bg-[#f0f4f9] hover:bg-[#e8f0fe] active:bg-[#d2e3fc] border border-[#dadce0] text-[11px] text-[#444746] hover:text-[#0b57d0] transition-colors cursor-pointer"
+                  >
+                    + {phrase}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* 4. Text Area for Genuine Thoughts */}
             <div>
               <label className="block text-xs font-semibold text-[#444746] mb-1.5">
                 What did you like about your experience?
