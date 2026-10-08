@@ -1,6 +1,17 @@
 import { MongoClient, Db, Collection, Document } from 'mongodb';
+import dns from 'dns';
 
-const uri = process.env.MONGODB_URI || '';
+// Ensure robust SRV DNS resolution across local and cloud environments
+try {
+  dns.setServers(['8.8.8.8', '1.1.1.1']);
+} catch {
+  // Ignore in environments where custom DNS servers cannot be set
+}
+
+export function getMongoUri(): string {
+  return process.env.MONGODB_URI || '';
+}
+
 const dbName = process.env.MONGODB_DB_NAME || 'reviewpulse';
 
 let client: MongoClient | null = null;
@@ -12,12 +23,23 @@ declare global {
 }
 
 export function isMongoConfigured(): boolean {
+  const uri = getMongoUri();
   return Boolean(uri && uri.trim().length > 0 && !uri.includes('placeholder'));
 }
 
 export async function getMongoClient(): Promise<MongoClient> {
+  const uri = getMongoUri();
   if (!isMongoConfigured()) {
     throw new Error('MONGODB_URI is not defined in environment variables');
+  }
+
+  try {
+    dns.setServers(['8.8.8.8', '1.1.1.1']);
+    if (dns.setDefaultResultOrder) {
+      dns.setDefaultResultOrder('ipv4first');
+    }
+  } catch {
+    // Ignore DNS override errors if in restricted environment
   }
 
   if (process.env.NODE_ENV === 'development') {
