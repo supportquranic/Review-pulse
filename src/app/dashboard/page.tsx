@@ -160,87 +160,87 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* KPI Metric Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          {/* KPI Metric Cards (2x2 on Mobile, 4x1 on Desktop) */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
             {/* Total Requests Card (Mint Pastel) */}
-            <div className="card-pastel-green rounded-3xl p-5 shadow-2xs flex flex-col justify-between transition-transform hover:-translate-y-0.5">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-[#137333] tracking-wide uppercase">
-                  Review Requests
+            <div className="card-pastel-green rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 shadow-2xs flex flex-col justify-between transition-transform hover:-translate-y-0.5">
+              <div className="flex items-center justify-between gap-1">
+                <span className="text-[10px] sm:text-xs font-bold text-[#137333] tracking-wider uppercase truncate">
+                  Requests
                 </span>
-                <div className="w-8 h-8 rounded-full bg-white/80 flex items-center justify-center text-[#137333]">
-                  <Send size={15} />
+                <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-white/80 flex items-center justify-center text-[#137333] shrink-0">
+                  <Send size={13} className="sm:w-[15px] sm:h-[15px]" />
                 </div>
               </div>
-              <div className="mt-4">
-                <p className="text-3xl font-extrabold text-[#1f1f1f]">
+              <div className="mt-2.5 sm:mt-4">
+                <p className="text-2xl sm:text-3xl font-extrabold text-[#1f1f1f]">
                   {metrics.totalRequests}
                 </p>
-                <p className="text-[11px] text-[#444746] mt-1">
-                  Sent via WhatsApp & direct links
+                <p className="text-[10px] sm:text-[11px] text-[#444746] mt-0.5 sm:mt-1 truncate">
+                  Sent invites
                 </p>
               </div>
             </div>
 
             {/* Opened Requests Card (Ice Blue Pastel) */}
-            <div className="card-pastel-blue rounded-3xl p-5 shadow-2xs flex flex-col justify-between transition-transform hover:-translate-y-0.5">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-[#0b57d0] tracking-wide uppercase">
-                  Opened by Customers
+            <div className="card-pastel-blue rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 shadow-2xs flex flex-col justify-between transition-transform hover:-translate-y-0.5">
+              <div className="flex items-center justify-between gap-1">
+                <span className="text-[10px] sm:text-xs font-bold text-[#0b57d0] tracking-wider uppercase truncate">
+                  Opened
                 </span>
-                <div className="w-8 h-8 rounded-full bg-white/80 flex items-center justify-center text-[#0b57d0]">
-                  <Eye size={15} />
+                <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-white/80 flex items-center justify-center text-[#0b57d0] shrink-0">
+                  <Eye size={13} className="sm:w-[15px] sm:h-[15px]" />
                 </div>
               </div>
-              <div className="mt-4">
-                <p className="text-3xl font-extrabold text-[#1f1f1f]">
+              <div className="mt-2.5 sm:mt-4">
+                <p className="text-2xl sm:text-3xl font-extrabold text-[#1f1f1f]">
                   {metrics.openedRequests}
                 </p>
-                <p className="text-[11px] text-[#444746] mt-1">
-                  Mobile view engagement
+                <p className="text-[10px] sm:text-[11px] text-[#444746] mt-0.5 sm:mt-1 truncate">
+                  Customer opens
                 </p>
               </div>
             </div>
 
             {/* Completed Reviews Card (Lavender Pastel) */}
-            <div className="card-pastel-purple rounded-3xl p-5 shadow-2xs flex flex-col justify-between transition-transform hover:-translate-y-0.5">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-[#7e22ce] tracking-wide uppercase">
-                  Completed Reviews
+            <div className="card-pastel-purple rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 shadow-2xs flex flex-col justify-between transition-transform hover:-translate-y-0.5">
+              <div className="flex items-center justify-between gap-1">
+                <span className="text-[10px] sm:text-xs font-bold text-[#7e22ce] tracking-wider uppercase truncate">
+                  Completed
                 </span>
-                <div className="w-8 h-8 rounded-full bg-white/80 flex items-center justify-center text-[#7e22ce]">
-                  <CheckCircle2 size={15} />
+                <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-white/80 flex items-center justify-center text-[#7e22ce] shrink-0">
+                  <CheckCircle2 size={13} className="sm:w-[15px] sm:h-[15px]" />
                 </div>
               </div>
-              <div className="mt-4">
-                <p className="text-3xl font-extrabold text-[#1f1f1f]">
+              <div className="mt-2.5 sm:mt-4">
+                <p className="text-2xl sm:text-3xl font-extrabold text-[#1f1f1f]">
                   {metrics.completedReviews}
                 </p>
-                <p className="text-[11px] text-[#444746] mt-1">
-                  {metrics.conversionRate}% completion conversion
+                <p className="text-[10px] sm:text-[11px] text-[#444746] mt-0.5 sm:mt-1 truncate">
+                  {metrics.conversionRate}% conversion
                 </p>
               </div>
             </div>
 
             {/* Google Rating Card (Warm Sand Pastel) */}
-            <div className="card-pastel-yellow rounded-3xl p-5 shadow-2xs flex flex-col justify-between transition-transform hover:-translate-y-0.5">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-[#b06000] tracking-wide uppercase">
-                  Average Rating
+            <div className="card-pastel-yellow rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 shadow-2xs flex flex-col justify-between transition-transform hover:-translate-y-0.5">
+              <div className="flex items-center justify-between gap-1">
+                <span className="text-[10px] sm:text-xs font-bold text-[#b06000] tracking-wider uppercase truncate">
+                  Rating
                 </span>
-                <div className="w-8 h-8 rounded-full bg-white/80 flex items-center justify-center text-[#fbbc04]">
-                  <Star size={16} className="fill-[#fbbc04]" />
+                <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-white/80 flex items-center justify-center text-[#fbbc04] shrink-0">
+                  <Star size={13} className="fill-[#fbbc04] sm:w-[15px] sm:h-[15px]" />
                 </div>
               </div>
-              <div className="mt-4">
-                <div className="flex items-baseline gap-1.5">
-                  <p className="text-3xl font-extrabold text-[#1f1f1f]">
+              <div className="mt-2.5 sm:mt-4">
+                <div className="flex items-baseline gap-1">
+                  <p className="text-2xl sm:text-3xl font-extrabold text-[#1f1f1f]">
                     {metrics.avgRating}
                   </p>
-                  <span className="text-xs text-[#747775] font-semibold">/ 5.0</span>
+                  <span className="text-[10px] sm:text-xs text-[#747775] font-semibold">/ 5.0</span>
                 </div>
-                <p className="text-[11px] text-[#444746] mt-1">
-                  From genuine customer reviews
+                <p className="text-[10px] sm:text-[11px] text-[#444746] mt-0.5 sm:mt-1 truncate">
+                  Google avg score
                 </p>
               </div>
             </div>
