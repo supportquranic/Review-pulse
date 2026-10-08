@@ -43,7 +43,6 @@ export async function POST(req: Request) {
     const now = new Date().toISOString();
 
     await usersCol.insertOne({
-      _id: userId as unknown as import('mongodb').ObjectId,
       id: userId,
       email: email.toLowerCase(),
       password_hash: hashedPassword,
@@ -52,7 +51,6 @@ export async function POST(req: Request) {
 
     const profilesCol = await getCollection('profiles');
     const newProfile = {
-      _id: businessId as unknown as import('mongodb').ObjectId,
       id: businessId,
       user_id: userId,
       business_name: business_name || 'My Business',

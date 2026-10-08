@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Mail, Lock, ArrowRight, Sparkles, CheckCircle2 } from 'lucide-react';
-import { GoogleLogo } from '@/components/GoogleLogo';
+import { setCurrentUser, saveBusinessProfile, logoutUser } from '@/lib/data-service';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -30,6 +30,19 @@ export default function LoginPage() {
         throw new Error(data.error || 'Invalid login credentials');
       }
 
+      logoutUser();
+
+      if (data.user) {
+        setCurrentUser({
+          id: data.user.id,
+          email: data.user.email,
+        });
+      }
+
+      if (data.profile) {
+        await saveBusinessProfile(data.profile);
+      }
+
       // Success
       router.push('/dashboard');
     } catch (err: unknown) {
@@ -41,6 +54,11 @@ export default function LoginPage() {
   };
 
   const handleDemoLogin = () => {
+    setCurrentUser({
+      id: 'usr_demo',
+      email: 'demo@apexclinic.com',
+      business_name: 'Apex Dental Care',
+    });
     router.push('/dashboard');
   };
 

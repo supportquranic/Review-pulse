@@ -6,68 +6,11 @@ const STORAGE_KEYS = {
   CURRENT_USER: 'g_review_current_user',
 };
 
-// Default seed business for instant live testing
-const DEFAULT_PROFILE: BusinessProfile = {
-  id: 'biz-default-01',
-  user_id: 'user-default-01',
-  business_name: 'Apex Dental Care & Implant Clinic',
-  business_category: 'Healthcare & Dental',
-  city: 'New York / Lahore',
-  google_review_link: 'https://search.google.com/local/writereview?placeid=ChIJN1t_tDeuEmsRUsoyG83frY4',
-  preferred_language: 'en',
-  discount_percentage: 10,
-  created_at: new Date().toISOString(),
-  updated_at: new Date().toISOString(),
-};
-
-const DEFAULT_REQUESTS: ReviewRequest[] = [
-  {
-    id: 'req-101',
-    business_id: 'biz-default-01',
-    customer_name: 'Sarah Johnson',
-    contact_method: 'whatsapp',
-    order_service_name: 'Teeth Whitening & Cleaning',
-    status: 'completed',
-    rating: 5,
-    customer_original_text: 'doctor was very gentle and friendly clinic is clean and on time',
-    customer_improved_text: 'The doctor was extremely gentle and professional throughout the procedure. The clinic was immaculately clean and everything ran right on schedule. Highly recommended!',
-    created_at: new Date(Date.now() - 3600 * 1000 * 48).toISOString(),
-    updated_at: new Date(Date.now() - 3600 * 1000 * 47).toISOString(),
-  },
-  {
-    id: 'req-102',
-    business_id: 'biz-default-01',
-    customer_name: 'Ali Raza',
-    contact_method: 'sms',
-    order_service_name: 'Root Canal Treatment',
-    status: 'completed',
-    rating: 5,
-    customer_original_text: 'bohat zabardast experience tha dard bilkul nahi hua',
-    customer_improved_text: 'Bohat zabardast aur comfortable experience raha. Doctor ne bohat ehtiyat se treatment kiya aur pain bilkul mehsoos nahi hua. Bohat shukriya!',
-    created_at: new Date(Date.now() - 3600 * 1000 * 24).toISOString(),
-    updated_at: new Date(Date.now() - 3600 * 1000 * 23).toISOString(),
-  },
-  {
-    id: 'req-103',
-    business_id: 'biz-default-01',
-    customer_name: 'Michael Davis',
-    contact_method: 'whatsapp',
-    order_service_name: 'Dental Checkup',
-    status: 'opened',
-    created_at: new Date(Date.now() - 3600 * 1000 * 5).toISOString(),
-    updated_at: new Date(Date.now() - 3600 * 1000 * 4).toISOString(),
-  },
-  {
-    id: 'req-104',
-    business_id: 'biz-default-01',
-    customer_name: 'Farhan Tariq',
-    contact_method: 'direct',
-    order_service_name: 'Braces Consultation',
-    status: 'sent',
-    created_at: new Date(Date.now() - 3600 * 1000 * 1).toISOString(),
-    updated_at: new Date(Date.now() - 3600 * 1000 * 1).toISOString(),
-  },
-];
+export interface CurrentUser {
+  id: string;
+  email: string;
+  business_name?: string;
+}
 
 // Helper to access LocalStorage safely
 function getLocalItem<T>(key: string, defaultValue: T): T {
@@ -90,11 +33,32 @@ function setLocalItem<T>(key: string, value: T): void {
 }
 
 // -------------------------------------------------------------
+// USER AUTH STATE HELPERS
+// -------------------------------------------------------------
+export function getCurrentUser(): CurrentUser | null {
+  return getLocalItem<CurrentUser | null>(STORAGE_KEYS.CURRENT_USER, null);
+}
+
+export function setCurrentUser(user: CurrentUser | null): void {
+  setLocalItem(STORAGE_KEYS.CURRENT_USER, user);
+}
+
+export function logoutUser(): void {
+  if (typeof window !== 'undefined') {
+    localStorage.removeItem(STORAGE_KEYS.CURRENT_USER);
+    localStorage.removeItem(STORAGE_KEYS.PROFILE);
+    localStorage.removeItem(STORAGE_KEYS.REQUESTS);
+  }
+}
+
+// -------------------------------------------------------------
 // BUSINESS PROFILE SERVICES (MongoDB + LocalStorage Fallback)
 // -------------------------------------------------------------
 export async function getBusinessProfile(userId?: string): Promise<BusinessProfile | null> {
+  const activeUserId = userId || getCurrentUser()?.id;
+
   try {
-    const url = userId ? `/api/profile?userId=${encodeURIComponent(userId)}` : '/api/profile';
+    const url = activeUserId ? `/api/profile?userId=${encodeURIComponent(activeUserId)}` : '/api/profile';
     const res = await fetch(url);
     if (res.ok) {
       const data = await res.json();
@@ -111,13 +75,38 @@ export async function getBusinessProfile(userId?: string): Promise<BusinessProfi
   const local = getLocalItem<BusinessProfile | null>(STORAGE_KEYS.PROFILE, null);
   if (local) return local;
 
-  // Initialize with default
-  setLocalItem(STORAGE_KEYS.PROFILE, DEFAULT_PROFILE);
-  return DEFAULT_PROFILE;
+  // Clean empty profile for brand new user
+  const cleanProfile: BusinessProfile = {
+    id: activeUserId ? `biz_${activeUserId}` : 'biz_default',
+    user_id: activeUserId || 'user_default',
+    business_name: getCurrentUser()?.business_name || 'My Business',
+    business_category: 'Services',
+    city: '',
+    google_review_link: '',
+    preferred_language: 'en',
+    discount_percentage: 0,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  };
+
+  return cleanProfile;
 }
 
 export async function saveBusinessProfile(profile: Partial<BusinessProfile>): Promise<BusinessProfile> {
-  const current = (await getBusinessProfile(profile.user_id)) || DEFAULT_PROFILE;
+  const activeUserId = profile.user_id || getCurrentUser()?.id;
+  const current = (await getBusinessProfile(activeUserId)) || {
+    id: activeUserId ? `biz_${activeUserId}` : 'biz_default',
+    user_id: activeUserId || 'user_default',
+    business_name: 'My Business',
+    business_category: 'Services',
+    city: '',
+    google_review_link: '',
+    preferred_language: 'en',
+    discount_percentage: 0,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  };
+
   const updated: BusinessProfile = {
     ...current,
     ...profile,
@@ -146,15 +135,18 @@ export async function saveBusinessProfile(profile: Partial<BusinessProfile>): Pr
 }
 
 // -------------------------------------------------------------
-// REVIEW REQUESTS SERVICES (MongoDB + LocalStorage Fallback)
+// REVIEW REQUESTS SERVICES (MongoDB + Clean Zero Slate)
 // -------------------------------------------------------------
 export async function getReviewRequests(businessId?: string): Promise<ReviewRequest[]> {
+  const user = getCurrentUser();
+  const activeBizId = businessId || user?.id;
+
   try {
-    const url = businessId ? `/api/requests?businessId=${encodeURIComponent(businessId)}` : '/api/requests';
+    const url = activeBizId ? `/api/requests?businessId=${encodeURIComponent(activeBizId)}` : '/api/requests';
     const res = await fetch(url);
     if (res.ok) {
       const data = await res.json();
-      if (data.requests && data.requests.length > 0) {
+      if (Array.isArray(data.requests)) {
         setLocalItem(STORAGE_KEYS.REQUESTS, data.requests);
         return data.requests as ReviewRequest[];
       }
@@ -163,19 +155,22 @@ export async function getReviewRequests(businessId?: string): Promise<ReviewRequ
     console.warn('API requests fetch fallback to local:', e);
   }
 
-  // Local storage fallback
-  const list = getLocalItem<ReviewRequest[]>(STORAGE_KEYS.REQUESTS, DEFAULT_REQUESTS);
+  // Local storage fallback (starts empty [] for clean slate)
+  const list = getLocalItem<ReviewRequest[]>(STORAGE_KEYS.REQUESTS, []);
   return list;
 }
 
 export async function createReviewRequest(
   requestData: Omit<ReviewRequest, 'id' | 'created_at' | 'updated_at'>
 ): Promise<ReviewRequest> {
+  const user = getCurrentUser();
+  const activeBizId = requestData.business_id || user?.id || 'biz_default';
   const newId = 'req-' + Math.random().toString(36).substring(2, 9);
   const now = new Date().toISOString();
 
   const newRecord: ReviewRequest = {
     ...requestData,
+    business_id: activeBizId,
     id: newId,
     status: 'sent',
     created_at: now,
@@ -191,7 +186,7 @@ export async function createReviewRequest(
     if (res.ok) {
       const data = await res.json();
       if (data.request) {
-        const currentList = getLocalItem<ReviewRequest[]>(STORAGE_KEYS.REQUESTS, DEFAULT_REQUESTS);
+        const currentList = getLocalItem<ReviewRequest[]>(STORAGE_KEYS.REQUESTS, []);
         setLocalItem(STORAGE_KEYS.REQUESTS, [data.request, ...currentList]);
         return data.request as ReviewRequest;
       }
@@ -201,7 +196,7 @@ export async function createReviewRequest(
   }
 
   // Fallback to local storage
-  const currentList = getLocalItem<ReviewRequest[]>(STORAGE_KEYS.REQUESTS, DEFAULT_REQUESTS);
+  const currentList = getLocalItem<ReviewRequest[]>(STORAGE_KEYS.REQUESTS, []);
   const updatedList = [newRecord, ...currentList];
   setLocalItem(STORAGE_KEYS.REQUESTS, updatedList);
   return newRecord;
@@ -220,17 +215,17 @@ export async function getReviewRequestById(id: string): Promise<ReviewRequest | 
     console.warn('API get review request by id fallback:', e);
   }
 
-  const list = getLocalItem<ReviewRequest[]>(STORAGE_KEYS.REQUESTS, DEFAULT_REQUESTS);
+  const list = getLocalItem<ReviewRequest[]>(STORAGE_KEYS.REQUESTS, []);
   const found = list.find((item) => item.id === id);
   if (found) return found;
 
-  // If not found in default list, create a virtual record for instant preview
+  // If not found in list, create a virtual record for instant preview
   const virtualRecord: ReviewRequest = {
     id,
-    business_id: 'biz-default-01',
+    business_id: 'biz_default',
     customer_name: 'Valued Customer',
     contact_method: 'direct',
-    order_service_name: 'Customer Visit',
+    order_service_name: 'Customer Service',
     status: 'opened',
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
@@ -253,7 +248,7 @@ export async function updateReviewRequest(
     if (res.ok) {
       const data = await res.json();
       if (data.request) {
-        const list = getLocalItem<ReviewRequest[]>(STORAGE_KEYS.REQUESTS, DEFAULT_REQUESTS);
+        const list = getLocalItem<ReviewRequest[]>(STORAGE_KEYS.REQUESTS, []);
         const index = list.findIndex((item) => item.id === id);
         if (index !== -1) {
           list[index] = data.request;
@@ -266,7 +261,7 @@ export async function updateReviewRequest(
     console.warn('API update review request fallback:', e);
   }
 
-  const list = getLocalItem<ReviewRequest[]>(STORAGE_KEYS.REQUESTS, DEFAULT_REQUESTS);
+  const list = getLocalItem<ReviewRequest[]>(STORAGE_KEYS.REQUESTS, []);
   const index = list.findIndex((item) => item.id === id);
 
   if (index !== -1) {
@@ -284,7 +279,7 @@ export async function updateReviewRequest(
 }
 
 // -------------------------------------------------------------
-// METRICS HELPER
+// METRICS HELPER (Starts cleanly at 0.0 & 0% for new users)
 // -------------------------------------------------------------
 export async function getDashboardMetrics(businessId?: string) {
   const requests = await getReviewRequests(businessId);
@@ -296,7 +291,7 @@ export async function getDashboardMetrics(businessId?: string) {
   const avgRating =
     completedReviews.length > 0
       ? (completedReviews.reduce((acc, curr) => acc + (curr.rating || 0), 0) / completedReviews.length).toFixed(1)
-      : '5.0';
+      : '0.0';
 
   const conversionRate = total > 0 ? Math.round((completed / total) * 100) : 0;
 

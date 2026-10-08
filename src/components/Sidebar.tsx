@@ -100,7 +100,7 @@ export function Sidebar({ profile, onOpenCreateModal }: SidebarProps) {
           )}
         </div>
 
-        {/* Backend status pill */}
+        {/* Backend status pill & Logout */}
         <div className="flex items-center justify-between px-1 text-[11px] text-[#747775]">
           <div className="flex items-center gap-1.5">
             <div
@@ -108,10 +108,20 @@ export function Sidebar({ profile, onOpenCreateModal }: SidebarProps) {
                 dbActive ? 'bg-[#137333]' : 'bg-[#f9ab00]'
               }`}
             />
-            <span>{dbActive ? 'MongoDB Connected' : 'Local Storage Engine'}</span>
+            <span>{dbActive ? 'MongoDB Live' : 'Local Storage'}</span>
           </div>
-          <Link href="/settings" className="hover:underline text-[10px]">
-            {dbActive ? 'Live' : 'Config'}
+          <Link
+            href="/auth/login"
+            onClick={() => {
+              if (typeof window !== 'undefined') {
+                localStorage.removeItem('g_review_current_user');
+                localStorage.removeItem('g_review_business_profile');
+                localStorage.removeItem('g_review_requests_list');
+              }
+            }}
+            className="text-[11px] font-semibold text-[#c5221f] hover:underline"
+          >
+            Log out
           </Link>
         </div>
       </div>

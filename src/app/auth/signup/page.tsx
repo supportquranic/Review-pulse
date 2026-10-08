@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Mail, Lock, ArrowRight, Building2, Sparkles } from 'lucide-react';
 import { GoogleLogo } from '@/components/GoogleLogo';
-import { saveBusinessProfile } from '@/lib/data-service';
+import { saveBusinessProfile, setCurrentUser, logoutUser } from '@/lib/data-service';
 
 export default function SignupPage() {
   const router = useRouter();
@@ -36,15 +36,27 @@ export default function SignupPage() {
         throw new Error(data.error || 'Failed to create account');
       }
 
-      if (data.profile) {
-        await saveBusinessProfile(data.profile);
-      } else {
-        await saveBusinessProfile({
+      // Reset previous user cache
+      logoutUser();
+
+      if (data.user) {
+        setCurrentUser({
+          id: data.user.id,
+          email: data.user.email,
           business_name: businessName || 'My Business',
         });
       }
 
-      // Route to business setup wizard
+      if (data.profile) {
+        await saveBusinessProfile(data.profile);
+      } else {
+        await saveBusinessProfile({
+          user_id: data.user?.id || 'usr_new',
+          business_name: businessName || 'My Business',
+        });
+      }
+
+      // Route to setup
       router.push('/setup');
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Error creating account';
