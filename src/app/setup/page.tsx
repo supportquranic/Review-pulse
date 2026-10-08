@@ -60,16 +60,16 @@ export default function BusinessSetupPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fafd] flex items-center justify-center p-4">
-      <div className="w-full max-w-xl bg-white rounded-3xl border border-[#e1e3e1] shadow-lg p-8 animate-in fade-in zoom-in-95">
+    <div className="min-h-screen bg-[#f8fafd] flex items-center justify-center p-3 sm:p-4">
+      <div className="w-full max-w-xl bg-white rounded-2xl sm:rounded-3xl border border-[#e1e3e1] shadow-lg p-4 sm:p-8 animate-in fade-in zoom-in-95">
         {/* Header */}
-        <div className="flex flex-col mb-6 pb-6 border-b border-[#f0f4f9]">
+        <div className="flex flex-col mb-4 sm:mb-6 pb-4 sm:pb-6 border-b border-[#f0f4f9]">
           <div className="mb-2">
-            <span className="font-extrabold text-2xl tracking-tight text-[#1f1f1f]">
+            <span className="font-extrabold text-xl sm:text-2xl tracking-tight text-[#1f1f1f]">
               Review<span className="text-[#0b57d0]">Pulse</span>
             </span>
           </div>
-          <h1 className="text-xl font-bold text-[#1f1f1f]">Set Up Your Business Profile</h1>
+          <h1 className="text-lg sm:text-xl font-bold text-[#1f1f1f]">Set Up Your Business Profile</h1>
           <p className="text-xs text-[#747775]">
             Configure your business details to start collecting genuine customer Google reviews
           </p>

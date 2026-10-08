@@ -79,19 +79,19 @@ export function CreateRequestModal({
   const shareMessage = encodeURIComponent(rawInviteText);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs">
-      <div className="bg-white rounded-3xl w-full max-w-lg shadow-xl border border-[#e1e3e1] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/40 backdrop-blur-xs">
+      <div className="bg-white rounded-2xl sm:rounded-3xl w-full max-w-lg shadow-xl border border-[#e1e3e1] overflow-hidden max-h-[92vh] flex flex-col animate-in fade-in zoom-in-95 duration-200">
         {/* Header */}
-        <div className="p-6 border-b border-[#f0f4f9] flex items-center justify-between">
+        <div className="p-4 sm:p-6 border-b border-[#f0f4f9] flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-full bg-[#e8f0fe] text-[#0b57d0] flex items-center justify-center">
               <Sparkles size={16} />
             </div>
             <div>
-              <h3 className="font-semibold text-[#1f1f1f] text-base">
+              <h3 className="font-semibold text-[#1f1f1f] text-sm sm:text-base">
                 {createdRequest ? 'Review Request Ready' : 'Create Review Request'}
               </h3>
-              <p className="text-xs text-[#747775]">
+              <p className="text-[11px] sm:text-xs text-[#747775]">
                 {createdRequest ? 'Share this genuine link with your customer' : 'Generate a unique mobile review link'}
               </p>
             </div>
@@ -108,7 +108,7 @@ export function CreateRequestModal({
         </div>
 
         {/* Content */}
-        <div className="p-6">
+        <div className="p-4 sm:p-6 overflow-y-auto flex-1">
           {!createdRequest ? (
             <form onSubmit={handleGenerate} className="space-y-4">
               {/* Customer Name */}

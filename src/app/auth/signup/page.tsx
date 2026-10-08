@@ -67,12 +67,12 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fafd] flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-white rounded-3xl border border-[#e1e3e1] shadow-xl p-8 animate-in fade-in zoom-in-95">
+    <div className="min-h-screen bg-[#f8fafd] flex items-center justify-center p-3 sm:p-4">
+      <div className="w-full max-w-md bg-white rounded-2xl sm:rounded-3xl border border-[#e1e3e1] shadow-xl p-5 sm:p-8 animate-in fade-in zoom-in-95">
         {/* Header */}
-        <div className="text-center mb-6">
+        <div className="text-center mb-5 sm:mb-6">
           <div className="mb-2">
-            <span className="font-extrabold text-2xl tracking-tight text-[#1f1f1f]">
+            <span className="font-extrabold text-xl sm:text-2xl tracking-tight text-[#1f1f1f]">
               Review<span className="text-[#0b57d0]">Pulse</span>
             </span>
           </div>
