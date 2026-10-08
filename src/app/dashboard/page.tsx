@@ -160,8 +160,8 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* KPI Metric Cards (2x2 on Mobile, 4x1 on Desktop) */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
+          {/* KPI Metric Cards (Guaranteed 2x2 on Mobile, 4x1 on Desktop) */}
+          <div className="kpi-grid-responsive gap-2.5 sm:gap-4">
             {/* Total Requests Card (Mint Pastel) */}
             <div className="card-pastel-green rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 shadow-2xs flex flex-col justify-between transition-transform hover:-translate-y-0.5">
               <div className="flex items-center justify-between gap-1">

@@ -55,6 +55,18 @@ body {
   border: 1px solid rgba(197, 34, 31, 0.2) !important;
 }
 
+/* 2x2 Mobile KPI Grid Enforcement */
+.kpi-grid-responsive {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+@media (min-width: 1024px) {
+  .kpi-grid-responsive {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+}
+
 /* Google-style pill tabs & buttons */
 .pill-tab {
   border-radius: 9999px;
