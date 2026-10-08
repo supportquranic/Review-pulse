@@ -261,10 +261,10 @@ export default function HomePage() {
         {/* 1. Full-Screen Hero Headline & Value Pitch */}
         <section className="min-h-[calc(100vh-5rem)] flex flex-col items-center justify-center text-center px-6 py-12 max-w-6xl mx-auto space-y-9 select-none">
           <div className="space-y-6 flex flex-col items-center">
-            {/* Main Headline - Bigger, Bolder & Grand Impact */}
-            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[76px] xl:text-[84px] font-black text-[#1f1f1f] tracking-[-0.035em] leading-[1.06] max-w-5xl">
-              Turn Happy Customers into <br />
-              <span className="text-[#0b57d0]">5-Star Google Reviews</span>
+            {/* Main Headline - Strict 2 Balanced Lines with 'into' on first line */}
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[68px] xl:text-[76px] font-black text-[#1f1f1f] tracking-[-0.035em] leading-[1.08] max-w-6xl">
+              <span className="block">Turn Happy Customers into</span>
+              <span className="block text-[#0b57d0]">5-Star Google Reviews</span>
             </h1>
 
             {/* Subheading */}
