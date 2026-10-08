@@ -10,8 +10,16 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'Google Review Flow - Authentic Customer Review Collection',
-  description: 'Help genuine customers leave authentic Google reviews effortlessly with wording polish and quick routing.',
+  title: 'ReviewPulse - Authentic 5-Star Google Reviews on Autopilot',
+  description: 'Help genuine customers leave authentic Google reviews effortlessly with AI wording polish and quick WhatsApp routing.',
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+    apple: [
+      { url: '/apple-icon', sizes: '180x180', type: 'image/png' },
+    ],
+  },
 };
 
 export default function RootLayout({
