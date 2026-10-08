@@ -20,35 +20,57 @@ export function getSafeGoogleReviewUrl(business?: Partial<BusinessProfile> | nul
 
   let rawLink = (business.google_review_link || '').trim();
 
-  // 1. If user provided a Place ID directly (e.g. ChIJN1t_tDeuEmsRUsoyG83frY4)
+  // 1. If link or string contains a Google Place ID (starts with ChIJ...)
+  const placeIdMatch = rawLink.match(/ChIJ[a-zA-Z0-9_-]{20,}/);
+  if (placeIdMatch) {
+    return `https://search.google.com/local/writereview?placeid=${encodeURIComponent(placeIdMatch[0])}`;
+  }
+
+  // 2. If user entered a plain Place ID string (alphanumeric 20+ chars)
   if (rawLink && /^[a-zA-Z0-9_-]{20,}$/.test(rawLink) && !rawLink.includes('.') && !rawLink.includes('/') && !rawLink.includes('http')) {
     return `https://search.google.com/local/writereview?placeid=${encodeURIComponent(rawLink)}`;
   }
 
-  // 2. If user provided a URL without protocol (e.g. g.page/r/... or maps.google.com/...)
+  // 3. If user provided a URL without protocol (e.g. g.page/r/... or maps.google.com/...)
   if (rawLink && !rawLink.startsWith('http://') && !rawLink.startsWith('https://')) {
     rawLink = `https://${rawLink}`;
   }
 
-  // 3. If rawLink is present, check for bare /writereview missing a place ID which causes Google 404
+  // 4. Auto-append /review for g.page shortlinks if missing so it triggers the review popup
+  if (rawLink && rawLink.includes('g.page') && !rawLink.includes('/review')) {
+    rawLink = rawLink.replace(/\/?$/, '/review');
+    return rawLink;
+  }
+
+  // 5. If rawLink contains CID query param, route to local writereview with CID
   if (rawLink) {
     try {
       const url = new URL(rawLink);
+      const cid = url.searchParams.get('cid');
+      if (cid) {
+        return `https://search.google.com/local/writereview?cid=${encodeURIComponent(cid)}`;
+      }
+
+      const placeid = url.searchParams.get('placeid') || url.searchParams.get('place_id');
+      if (placeid) {
+        return `https://search.google.com/local/writereview?placeid=${encodeURIComponent(placeid)}`;
+      }
+
       if (url.pathname.includes('writereview') || url.pathname.endsWith('/writereview')) {
-        const placeid = url.searchParams.get('placeid') || url.searchParams.get('place_id');
-        if (!placeid) {
-          // Missing placeid on writereview causes Google 404 -> safely route to Google Maps search
+        if (!placeid && !cid) {
+          // Missing placeid on bare writereview -> fallback to Google Maps search
           const q = encodeURIComponent(`${business.business_name || 'Business'} ${business.city || ''}`.trim());
           return `https://www.google.com/maps/search/?api=1&query=${q}`;
         }
       }
+
       return rawLink;
     } catch {
-      // Invalid URL format, fallback below
+      // Invalid URL format
     }
   }
 
-  // 4. Safe fallback to Google Maps search for this business
+  // 6. Safe fallback to Google Maps search for this business
   const query = encodeURIComponent(`${business.business_name || 'Business'} ${business.city || ''}`.trim());
   return `https://www.google.com/maps/search/?api=1&query=${query}`;
 }
