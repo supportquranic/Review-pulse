@@ -134,32 +134,51 @@ Customer original draft:
 
 Return ONLY the improved review text. Do not output preamble, quotes, explanations, or markdown formatting.`;
 
-        const geminiRes = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              contents: [{ parts: [{ text: prompt }] }],
-              generationConfig: {
-                temperature: 0.3,
-                maxOutputTokens: 250,
-              },
-            }),
-          }
-        );
+        const candidateModels = ['gemini-3.8-flash', 'gemini-flash-latest'];
+        let candidate = '';
 
-        if (geminiRes.ok) {
-          const geminiData = await geminiRes.json();
-          const candidate = geminiData.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
-          if (candidate) {
-            return NextResponse.json({
-              originalText: text,
-              improvedText: candidate.replace(/^["']|["']$/g, ''),
-              tone: 'Natural & Genuine',
-              improvementsApplied: ['Grammar & clarity', 'Sentence flow', 'Authentic tone'],
-            });
+        for (const modelName of candidateModels) {
+          try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 6000);
+
+            const geminiRes = await fetch(
+              `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`,
+              {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                signal: controller.signal,
+                body: JSON.stringify({
+                  contents: [{ parts: [{ text: prompt }] }],
+                  generationConfig: {
+                    temperature: 0.3,
+                    maxOutputTokens: 600,
+                  },
+                }),
+              }
+            );
+            clearTimeout(timeoutId);
+
+            if (geminiRes.ok) {
+              const geminiData = await geminiRes.json();
+              const parts = geminiData.candidates?.[0]?.content?.parts || [];
+              // Gemini 2.5/3.x may return thought parts first; get the final response part
+              const answerPart = parts.slice().reverse().find((p: { text?: string; thought?: boolean }) => p.text && !p.thought);
+              candidate = (answerPart?.text || parts[0]?.text || '').trim();
+              if (candidate) break;
+            }
+          } catch {
+            // Try next candidate model or fallback gracefully
           }
+        }
+
+        if (candidate) {
+          return NextResponse.json({
+            originalText: text,
+            improvedText: candidate.replace(/^["']|["']$/g, ''),
+            tone: 'Natural & Genuine',
+            improvementsApplied: ['Grammar & clarity', 'Sentence flow', 'Authentic tone'],
+          });
         }
       } catch (err) {
         console.warn('AI API call failed, using high-precision local enhancer:', err);
