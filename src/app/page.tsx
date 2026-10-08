@@ -308,190 +308,190 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* 2. Visual Device Showcase: Authentic Black iPad Pro + Black iPhone 17 Pro */}
-        <section id="demo" className="w-full max-w-6xl xl:max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10 select-none">
-          <div className="flex flex-col lg:flex-row items-center justify-center gap-6 sm:gap-8 lg:gap-10 xl:gap-14">
+        {/* 2. Visual Device Showcase: Authentic Black iPad Pro + Black iPhone 17 Pro (Side-by-Side on all screens including mobile) */}
+        <section id="demo" className="w-full max-w-6xl xl:max-w-7xl mx-auto px-2 sm:px-6 py-4 sm:py-10 select-none">
+          <div className="flex flex-row items-stretch justify-center gap-2 sm:gap-6 lg:gap-10 xl:gap-14">
             {/* 1. FRONT-FACING IPAD PRO (Business Dashboard with Left Drawer) */}
-            <div className="w-full lg:w-[72%] max-w-[850px] flex flex-col items-center">
+            <div className="w-[58%] sm:w-[68%] lg:w-[70%] max-w-[850px] flex flex-col items-center">
               {/* iPad Pro Slim Black Chassis with Uniform Bezels */}
-              <div className="relative w-full">
+              <div className="relative w-full h-full">
                 {/* Top Minimal Power Button */}
                 <div className="hidden sm:block absolute top-0 right-14 w-10 h-[3px] bg-[#22242a] rounded-t-sm -translate-y-full" />
 
                 {/* Outer Black Bezel */}
-                <div className="w-full bg-[#121316] p-2 sm:p-3 rounded-2xl sm:rounded-[36px] border border-[#2a2c34] relative shadow-lg">
+                <div className="w-full h-full bg-[#121316] p-1 sm:p-2.5 lg:p-3 rounded-xl sm:rounded-[36px] border border-[#2a2c34] relative shadow-lg flex flex-col">
                   {/* Top FaceTime Camera */}
                   <div className="hidden sm:flex absolute top-[4px] left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[#050508] border border-[#252730] items-center justify-center pointer-events-none">
                     <div className="w-0.5 h-0.5 rounded-full bg-[#11131a]" />
                   </div>
 
                   {/* iPad Screen Surface */}
-                  <div className="bg-[#f8fafd] rounded-xl sm:rounded-[28px] border border-[#e1e3e1] overflow-hidden min-h-0 sm:min-h-[520px] flex flex-row">
-                    {/* LEFT DRAWER / SIDEBAR NAVIGATION (Hidden on mobile phones for clean layout) */}
-                    <div className="hidden md:flex md:w-48 lg:w-52 bg-white border-r border-[#e1e3e1] p-3.5 sm:p-4 flex-col justify-between shrink-0 select-none text-left">
-                      <div className="space-y-4">
+                  <div className="bg-[#f8fafd] rounded-lg sm:rounded-[28px] border border-[#e1e3e1] overflow-hidden flex-1 flex flex-row">
+                    {/* LEFT DRAWER / SIDEBAR NAVIGATION (Visible on md+ screens) */}
+                    <div className="hidden md:flex md:w-44 lg:w-52 bg-white border-r border-[#e1e3e1] p-3 sm:p-4 flex-col justify-between shrink-0 select-none text-left">
+                      <div className="space-y-3 sm:space-y-4">
                         {/* Brand Header */}
                         <div className="pb-2 border-b border-[#f0f4f9]">
-                          <span className="font-extrabold text-base tracking-tight text-[#1f1f1f]">
+                          <span className="font-extrabold text-sm sm:text-base tracking-tight text-[#1f1f1f]">
                             Review<span className="text-[#0b57d0]">Pulse</span>
                           </span>
-                          <p className="text-[10px] text-[#747775]">Business Suite</p>
+                          <p className="text-[9px] sm:text-[10px] text-[#747775]">Business Suite</p>
                         </div>
 
                         {/* Quick Create Action Button */}
-                        <button className="w-full py-2 px-3 bg-[#0b57d0] text-white rounded-full font-bold text-xs flex items-center justify-center gap-1.5 shadow-2xs">
-                          <Plus size={14} />
+                        <button className="w-full py-1.5 sm:py-2 px-2 sm:px-3 bg-[#0b57d0] text-white rounded-full font-bold text-[11px] sm:text-xs flex items-center justify-center gap-1 sm:gap-1.5 shadow-2xs">
+                          <Plus size={13} />
                           <span>New Request</span>
                         </button>
 
                         {/* Navigation Links */}
                         <div className="space-y-1">
-                          <div className="flex items-center gap-2.5 px-3 py-2 rounded-full bg-[#c2e7ff] text-[#001d35] font-bold text-xs">
-                            <LayoutDashboard size={15} className="text-[#001d35]" />
+                          <div className="flex items-center gap-2 sm:gap-2.5 px-2.5 py-1.5 sm:py-2 rounded-full bg-[#c2e7ff] text-[#001d35] font-bold text-[11px] sm:text-xs">
+                            <LayoutDashboard size={14} className="text-[#001d35]" />
                             <span>Dashboard</span>
                           </div>
 
-                          <div className="flex items-center justify-between px-3 py-2 rounded-full text-[#444746] font-medium text-xs hover:bg-[#f0f4f9]">
-                            <div className="flex items-center gap-2.5">
-                              <Send size={15} className="text-[#5f6368]" />
+                          <div className="flex items-center justify-between px-2.5 py-1.5 sm:py-2 rounded-full text-[#444746] font-medium text-[11px] sm:text-xs hover:bg-[#f0f4f9]">
+                            <div className="flex items-center gap-2 sm:gap-2.5">
+                              <Send size={14} className="text-[#5f6368]" />
                               <span>Requests</span>
                             </div>
-                            <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-[#e8f0fe] text-[#0b57d0]">
+                            <span className="text-[9px] sm:text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-[#e8f0fe] text-[#0b57d0]">
                               148
                             </span>
                           </div>
 
-                          <div className="flex items-center justify-between px-3 py-2 rounded-full text-[#444746] font-medium text-xs hover:bg-[#f0f4f9]">
-                            <div className="flex items-center gap-2.5">
-                              <MessageSquareCheck size={15} className="text-[#5f6368]" />
+                          <div className="flex items-center justify-between px-2.5 py-1.5 sm:py-2 rounded-full text-[#444746] font-medium text-[11px] sm:text-xs hover:bg-[#f0f4f9]">
+                            <div className="flex items-center gap-2 sm:gap-2.5">
+                              <MessageSquareCheck size={14} className="text-[#5f6368]" />
                               <span>Reviews</span>
                             </div>
-                            <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-[#e6f4ea] text-[#137333]">
+                            <span className="text-[9px] sm:text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-[#e6f4ea] text-[#137333]">
                               116
                             </span>
                           </div>
 
-                          <div className="flex items-center gap-2.5 px-3 py-2 rounded-full text-[#444746] font-medium text-xs hover:bg-[#f0f4f9]">
-                            <Settings size={15} className="text-[#5f6368]" />
+                          <div className="flex items-center gap-2 sm:gap-2.5 px-2.5 py-1.5 sm:py-2 rounded-full text-[#444746] font-medium text-[11px] sm:text-xs hover:bg-[#f0f4f9]">
+                            <Settings size={14} className="text-[#5f6368]" />
                             <span>Settings & AI</span>
                           </div>
                         </div>
                       </div>
 
                       {/* Drawer Bottom Profile */}
-                      <div className="p-2.5 rounded-xl bg-[#f8fafd] border border-[#e1e3e1] space-y-1">
+                      <div className="p-2 sm:p-2.5 rounded-xl bg-[#f8fafd] border border-[#e1e3e1] space-y-1">
                         <div className="flex items-center gap-1.5">
                           <div className="w-5 h-5 rounded-md bg-[#e8f0fe] text-[#0b57d0] font-bold text-[10px] flex items-center justify-center">
                             🦷
                           </div>
-                          <span className="font-bold text-[11px] text-[#1f1f1f] truncate">Apex Dental</span>
+                          <span className="font-bold text-[10px] sm:text-[11px] text-[#1f1f1f] truncate">Apex Dental</span>
                         </div>
-                        <div className="flex items-center gap-1 text-[9px] text-[#137333] font-bold">
+                        <div className="flex items-center gap-1 text-[8.5px] sm:text-[9px] text-[#137333] font-bold">
                           <span className="w-1.5 h-1.5 rounded-full bg-[#137333] animate-pulse" />
-                          <span>Google Connected</span>
+                          <span>Connected</span>
                         </div>
                       </div>
                     </div>
 
                     {/* MAIN DASHBOARD CANVAS */}
-                    <div className="flex-1 p-3.5 sm:p-5 md:p-6 text-left space-y-3 sm:space-y-4 overflow-hidden flex flex-col justify-between">
+                    <div className="flex-1 p-2 sm:p-4 md:p-6 text-left space-y-2 sm:space-y-3 md:space-y-4 overflow-hidden flex flex-col justify-between">
                       {/* Top Canvas Header */}
-                      <div className="flex items-center justify-between pb-2.5 sm:pb-3 border-b border-[#e1e3e1]">
+                      <div className="flex items-center justify-between pb-1.5 sm:pb-2.5 md:pb-3 border-b border-[#e1e3e1]">
                         <div>
-                          <h3 className="text-base sm:text-xl md:text-2xl font-black text-[#1f1f1f] tracking-tight">
+                          <h3 className="text-xs sm:text-lg md:text-2xl font-black text-[#1f1f1f] tracking-tight">
                             Hey Apex Dental<span className="text-[#0b57d0]">.</span>
                           </h3>
-                          <p className="text-[10px] sm:text-[11px] text-[#747775] font-medium">Thursday, 20 August 2026</p>
+                          <p className="text-[7.5px] sm:text-[10px] md:text-[11px] text-[#747775] font-medium">Thursday, 20 August 2026</p>
                         </div>
 
-                        <div className="flex items-center gap-2">
-                          <span className="text-[9px] sm:text-[10px] font-bold px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-[#e6f4ea] text-[#137333] flex items-center gap-1">
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#137333] animate-pulse" />
+                        <div className="flex items-center gap-1 sm:gap-2">
+                          <span className="text-[7px] sm:text-[9px] md:text-[10px] font-bold px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-[#e6f4ea] text-[#137333] flex items-center gap-0.5 sm:gap-1">
+                            <span className="w-1 sm:w-1.5 h-1 sm:h-1.5 rounded-full bg-[#137333] animate-pulse" />
                             Live Syncing
                           </span>
                         </div>
                       </div>
 
                       {/* 3-Step Simple Visual Workflow Banner */}
-                      <div className="bg-white rounded-xl p-2 sm:p-2.5 border border-[#e1e3e1] grid grid-cols-3 gap-1.5 sm:gap-2 text-center shadow-2xs">
-                        <div className="flex flex-col items-center p-1 sm:p-1.5 rounded-lg bg-[#f8fafd] border border-[#e8eaed]">
-                          <span className="text-[9px] sm:text-[10px] font-bold text-[#0b57d0]">1. Instant Send</span>
-                          <span className="text-[8px] sm:text-[9px] text-[#747775]">WhatsApp link</span>
+                      <div className="bg-white rounded-md sm:rounded-xl p-1 sm:p-2 md:p-2.5 border border-[#e1e3e1] grid grid-cols-3 gap-1 sm:gap-2 text-center shadow-2xs">
+                        <div className="flex flex-col items-center p-0.5 sm:p-1 md:p-1.5 rounded-sm sm:rounded-lg bg-[#f8fafd] border border-[#e8eaed]">
+                          <span className="text-[7px] sm:text-[9px] md:text-[10px] font-bold text-[#0b57d0]">1. Instant Send</span>
+                          <span className="text-[6px] sm:text-[8px] md:text-[9px] text-[#747775]">WhatsApp</span>
                         </div>
-                        <div className="flex flex-col items-center p-1 sm:p-1.5 rounded-lg bg-[#f3e8fd] border border-[#e9d5ff]">
-                          <span className="text-[9px] sm:text-[10px] font-bold text-[#7e22ce]">2. AI Polish</span>
-                          <span className="text-[8px] sm:text-[9px] text-[#747775]">Fixes in 1 tap</span>
+                        <div className="flex flex-col items-center p-0.5 sm:p-1 md:p-1.5 rounded-sm sm:rounded-lg bg-[#f3e8fd] border border-[#e9d5ff]">
+                          <span className="text-[7px] sm:text-[9px] md:text-[10px] font-bold text-[#7e22ce]">2. AI Polish</span>
+                          <span className="text-[6px] sm:text-[8px] md:text-[9px] text-[#747775]">1-Tap fix</span>
                         </div>
-                        <div className="flex flex-col items-center p-1 sm:p-1.5 rounded-lg bg-[#e6f4ea] border border-[#ceead6]">
-                          <span className="text-[9px] sm:text-[10px] font-bold text-[#137333]">3. Google Maps</span>
-                          <span className="text-[8px] sm:text-[9px] text-[#747775]">5★ published</span>
+                        <div className="flex flex-col items-center p-0.5 sm:p-1 md:p-1.5 rounded-sm sm:rounded-lg bg-[#e6f4ea] border border-[#ceead6]">
+                          <span className="text-[7px] sm:text-[9px] md:text-[10px] font-bold text-[#137333]">3. Google Maps</span>
+                          <span className="text-[6px] sm:text-[8px] md:text-[9px] text-[#747775]">5★ posted</span>
                         </div>
                       </div>
 
                       {/* Stat Metrics Grid */}
-                      <div className="grid grid-cols-3 gap-1.5 sm:gap-3">
-                        <div className="bg-white p-2 sm:p-3 rounded-lg sm:rounded-xl border border-[#e1e3e1] shadow-2xs">
-                          <span className="text-[8px] sm:text-[9px] font-bold text-[#747775] uppercase tracking-wider">REQUESTS</span>
-                          <p className="text-sm sm:text-xl font-extrabold text-[#1f1f1f] mt-0.5">148</p>
-                          <p className="text-[8px] sm:text-[10px] text-[#137333] font-bold mt-0.5 flex items-center gap-0.5">
-                            <TrendingUp size={10} /> +28%
+                      <div className="grid grid-cols-3 gap-1 sm:gap-2.5 md:gap-3">
+                        <div className="bg-white p-1 sm:p-2.5 md:p-3 rounded-md sm:rounded-lg md:rounded-xl border border-[#e1e3e1] shadow-2xs">
+                          <span className="text-[6.5px] sm:text-[8px] md:text-[9px] font-bold text-[#747775] uppercase tracking-wider">REQUESTS</span>
+                          <p className="text-xs sm:text-base md:text-xl font-extrabold text-[#1f1f1f] mt-0.5">148</p>
+                          <p className="text-[6.5px] sm:text-[8px] md:text-[10px] text-[#137333] font-bold mt-0.5 flex items-center gap-0.5">
+                            <TrendingUp size={8} className="sm:w-2.5 sm:h-2.5" /> +28%
                           </p>
                         </div>
 
-                        <div className="bg-white p-2 sm:p-3 rounded-lg sm:rounded-xl border border-[#e1e3e1] shadow-2xs">
-                          <span className="text-[8px] sm:text-[9px] font-bold text-[#747775] uppercase tracking-wider">PUBLISHED</span>
-                          <p className="text-sm sm:text-xl font-extrabold text-[#0b57d0] mt-0.5">116</p>
-                          <p className="text-[8px] sm:text-[10px] text-[#747775] mt-0.5">78.4% Conv.</p>
+                        <div className="bg-white p-1 sm:p-2.5 md:p-3 rounded-md sm:rounded-lg md:rounded-xl border border-[#e1e3e1] shadow-2xs">
+                          <span className="text-[6.5px] sm:text-[8px] md:text-[9px] font-bold text-[#747775] uppercase tracking-wider">PUBLISHED</span>
+                          <p className="text-xs sm:text-base md:text-xl font-extrabold text-[#0b57d0] mt-0.5">116</p>
+                          <p className="text-[6.5px] sm:text-[8px] md:text-[10px] text-[#747775] mt-0.5">78% Conv.</p>
                         </div>
 
-                        <div className="bg-white p-2 sm:p-3 rounded-lg sm:rounded-xl border border-[#e1e3e1] shadow-2xs">
-                          <span className="text-[8px] sm:text-[9px] font-bold text-[#747775] uppercase tracking-wider">RATING</span>
-                          <div className="flex items-center gap-1 mt-0.5">
-                            <span className="text-sm sm:text-xl font-extrabold text-[#1f1f1f]">4.9</span>
+                        <div className="bg-white p-1 sm:p-2.5 md:p-3 rounded-md sm:rounded-lg md:rounded-xl border border-[#e1e3e1] shadow-2xs">
+                          <span className="text-[6.5px] sm:text-[8px] md:text-[9px] font-bold text-[#747775] uppercase tracking-wider">RATING</span>
+                          <div className="flex items-center gap-0.5 sm:gap-1 mt-0.5">
+                            <span className="text-xs sm:text-base md:text-xl font-extrabold text-[#1f1f1f]">4.9</span>
                             <div className="hidden sm:flex text-[#f9ab00]">
                               {[...Array(5)].map((_, i) => (
-                                <Star key={i} size={11} className="fill-[#f9ab00]" />
+                                <Star key={i} size={10} className="fill-[#f9ab00]" />
                               ))}
                             </div>
                           </div>
-                          <p className="text-[8px] sm:text-[10px] text-[#747775] mt-0.5">210 Reviews</p>
+                          <p className="text-[6.5px] sm:text-[8px] md:text-[10px] text-[#747775] mt-0.5">210 Reviews</p>
                         </div>
                       </div>
 
                       {/* Live Customer Activity Stream */}
-                      <div className="bg-white rounded-xl border border-[#e1e3e1] p-2.5 sm:p-3 space-y-1.5 sm:space-y-2 shadow-2xs">
-                        <div className="flex items-center justify-between pb-1 border-b border-[#f0f4f9]">
-                          <span className="text-[10px] sm:text-[11px] font-bold text-[#1f1f1f]">Live Review Activity</span>
-                          <span className="text-[9px] sm:text-[10px] font-bold text-[#0b57d0]">Auto-Sync Enabled</span>
+                      <div className="bg-white rounded-md sm:rounded-xl border border-[#e1e3e1] p-1.5 sm:p-2.5 md:p-3 space-y-1 sm:space-y-1.5 md:space-y-2 shadow-2xs">
+                        <div className="flex items-center justify-between pb-0.5 sm:pb-1 border-b border-[#f0f4f9]">
+                          <span className="text-[7.5px] sm:text-[10px] md:text-[11px] font-bold text-[#1f1f1f]">Live Review Activity</span>
+                          <span className="text-[7px] sm:text-[9px] md:text-[10px] font-bold text-[#0b57d0]">Auto-Sync</span>
                         </div>
 
-                        <div className="space-y-1.5">
-                          <div className="flex items-center justify-between p-1.5 sm:p-2 rounded-lg bg-[#f8fafd] border border-[#e1e3e1]">
-                            <div className="flex items-center gap-1.5 sm:gap-2">
-                              <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#e8f0fe] text-[#0b57d0] font-bold text-[9px] sm:text-[10px] flex items-center justify-center">
+                        <div className="space-y-1 sm:space-y-1.5">
+                          <div className="flex items-center justify-between p-1 sm:p-1.5 md:p-2 rounded-sm sm:rounded-lg bg-[#f8fafd] border border-[#e1e3e1]">
+                            <div className="flex items-center gap-1 sm:gap-1.5 md:gap-2">
+                              <div className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 rounded-full bg-[#e8f0fe] text-[#0b57d0] font-bold text-[7.5px] sm:text-[9px] md:text-[10px] flex items-center justify-center shrink-0">
                                 SJ
                               </div>
-                              <div>
-                                <p className="font-bold text-[#1f1f1f] text-[11px] sm:text-xs">Sarah Johnson</p>
-                                <p className="text-[8px] sm:text-[9px] text-[#747775]">Teeth Whitening</p>
+                              <div className="min-w-0">
+                                <p className="font-bold text-[#1f1f1f] text-[8px] sm:text-[11px] md:text-xs truncate">Sarah Johnson</p>
+                                <p className="text-[6.5px] sm:text-[8px] md:text-[9px] text-[#747775] truncate">Teeth Whitening</p>
                               </div>
                             </div>
-                            <span className="text-[8.5px] sm:text-[9.5px] font-bold px-1.5 sm:px-2 py-0.5 rounded-full bg-[#e6f4ea] text-[#137333]">
+                            <span className="text-[6.5px] sm:text-[8.5px] md:text-[9.5px] font-bold px-1 sm:px-1.5 md:px-2 py-0.2 sm:py-0.5 rounded-full bg-[#e6f4ea] text-[#137333] shrink-0">
                               5⭐ Google
                             </span>
                           </div>
 
-                          <div className="flex items-center justify-between p-1.5 sm:p-2 rounded-lg bg-[#f8fafd] border border-[#e1e3e1]">
-                            <div className="flex items-center gap-1.5 sm:gap-2">
-                              <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#f3e8fd] text-[#7e22ce] font-bold text-[9px] sm:text-[10px] flex items-center justify-center">
+                          <div className="flex items-center justify-between p-1 sm:p-1.5 md:p-2 rounded-sm sm:rounded-lg bg-[#f8fafd] border border-[#e1e3e1]">
+                            <div className="flex items-center gap-1 sm:gap-1.5 md:gap-2">
+                              <div className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 rounded-full bg-[#f3e8fd] text-[#7e22ce] font-bold text-[7.5px] sm:text-[9px] md:text-[10px] flex items-center justify-center shrink-0">
                                 UK
                               </div>
-                              <div>
-                                <p className="font-bold text-[#1f1f1f] text-[11px] sm:text-xs">Muhammad Usman</p>
-                                <p className="text-[8px] sm:text-[9px] text-[#747775]">Dental Implant Checkup</p>
+                              <div className="min-w-0">
+                                <p className="font-bold text-[#1f1f1f] text-[8px] sm:text-[11px] md:text-xs truncate">M. Usman Khan</p>
+                                <p className="text-[6.5px] sm:text-[8px] md:text-[9px] text-[#747775] truncate">Dental Implant</p>
                               </div>
                             </div>
-                            <span className="text-[8.5px] sm:text-[9.5px] font-bold px-1.5 sm:px-2 py-0.5 rounded-full bg-[#f3e8fd] text-[#7e22ce]">
+                            <span className="text-[6.5px] sm:text-[8.5px] md:text-[9.5px] font-bold px-1 sm:px-1.5 md:px-2 py-0.2 sm:py-0.5 rounded-full bg-[#f3e8fd] text-[#7e22ce] shrink-0">
                               AI Polished
                             </span>
                           </div>
@@ -504,117 +504,110 @@ export default function HomePage() {
             </div>
 
             {/* 2. FRONT-FACING IPHONE 17 PRO (Customer Review Flow) */}
-            <div className="w-full lg:w-[28%] max-w-[270px] sm:max-w-[290px] flex flex-col items-center">
+            <div className="w-[42%] sm:w-[32%] lg:w-[30%] max-w-[290px] flex flex-col items-center">
               {/* Phone Device with Slim Black Chassis & Hardware Side Buttons */}
-              <div className="relative w-full">
+              <div className="relative w-full h-full">
                 {/* Left Hardware Buttons */}
-                <div className="absolute -left-[2.5px] top-20 w-[2.5px] h-5 bg-[#22242a] rounded-l-sm" />
-                <div className="absolute -left-[2.5px] top-28 w-[2.5px] h-8 bg-[#22242a] rounded-l-sm" />
-                <div className="absolute -left-[2.5px] top-40 w-[2.5px] h-8 bg-[#22242a] rounded-l-sm" />
+                <div className="hidden sm:block absolute -left-[2.5px] top-20 w-[2.5px] h-5 bg-[#22242a] rounded-l-sm" />
+                <div className="hidden sm:block absolute -left-[2.5px] top-28 w-[2.5px] h-8 bg-[#22242a] rounded-l-sm" />
+                <div className="hidden sm:block absolute -left-[2.5px] top-40 w-[2.5px] h-8 bg-[#22242a] rounded-l-sm" />
 
                 {/* Right Hardware Button */}
-                <div className="absolute -right-[2.5px] top-28 w-[2.5px] h-12 bg-[#22242a] rounded-r-sm" />
+                <div className="hidden sm:block absolute -right-[2.5px] top-28 w-[2.5px] h-12 bg-[#22242a] rounded-r-sm" />
 
                 {/* Slim Black Outer Frame */}
-                <div className="w-full min-h-[520px] sm:min-h-[570px] bg-[#121316] p-1.5 sm:p-[6px] rounded-[36px] sm:rounded-[42px] border border-[#2a2c34] relative flex flex-col justify-between shadow-xl">
+                <div className="w-full h-full bg-[#121316] p-1 sm:p-1.5 lg:p-[6px] rounded-xl sm:rounded-[36px] md:rounded-[42px] border border-[#2a2c34] relative flex flex-col justify-between shadow-xl">
                   {/* Ultra-thin Uniform Inner Bezel */}
-                  <div className="bg-black p-[2px] rounded-[32px] sm:rounded-[36px] flex-1 flex flex-col">
+                  <div className="bg-black p-[1px] sm:p-[2px] rounded-lg sm:rounded-[32px] md:rounded-[36px] flex-1 flex flex-col">
                     {/* iPhone Screen Surface */}
-                    <div className="bg-[#f8fafd] rounded-[30px] sm:rounded-[34px] p-3 sm:p-3.5 text-left flex-1 flex flex-col justify-between overflow-hidden">
+                    <div className="bg-[#f8fafd] rounded-md sm:rounded-[30px] md:rounded-[34px] p-1.5 sm:p-3 md:p-3.5 text-left flex-1 flex flex-col justify-between overflow-hidden">
                       {/* Top Status Bar (9:41, Centered Dynamic Island, Signal, Wi-Fi, Battery) */}
-                      <div className="relative flex items-center justify-between text-black px-1.5 pt-0.5 select-none h-6">
-                        <span className="font-bold text-xs tracking-tight">9:41</span>
+                      <div className="relative flex items-center justify-between text-black px-0.5 sm:px-1.5 pt-0.5 select-none h-4 sm:h-6">
+                        <span className="font-bold text-[7.5px] sm:text-xs tracking-tight">9:41</span>
 
                         {/* Centered Dynamic Island Capsule */}
-                        <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[76px] sm:w-[82px] h-[18px] sm:h-[19px] bg-black rounded-full flex items-center justify-between px-2 sm:px-2.5 z-10 shadow-xs">
-                          <div className="w-1.5 h-1.5 rounded-full bg-[#121318] border border-[#20232c] flex items-center justify-center">
-                            <div className="w-0.5 h-0.5 rounded-full bg-[#08080c]" />
+                        <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-8 sm:w-[76px] md:w-[82px] h-1.5 sm:h-[18px] md:h-[19px] bg-black rounded-full flex items-center justify-between px-1 sm:px-2.5 z-10 shadow-xs">
+                          <div className="w-0.5 sm:w-1.5 h-0.5 sm:h-1.5 rounded-full bg-[#121318] border border-[#20232c] flex items-center justify-center">
+                            <div className="w-0.5 h-0.5 rounded-full bg-[#08080c] hidden sm:block" />
                           </div>
-                          <div className="w-1.5 h-1.5 rounded-full bg-[#151720] flex items-center justify-center">
-                            <div className="w-0.5 h-0.5 rounded-full bg-[#0a0d14]" />
+                          <div className="w-0.5 sm:w-1.5 h-0.5 sm:h-1.5 rounded-full bg-[#151720] flex items-center justify-center">
+                            <div className="w-0.5 h-0.5 rounded-full bg-[#0a0d14] hidden sm:block" />
                           </div>
                         </div>
 
                         {/* Right Status Icons */}
-                        <div className="flex items-center gap-1 text-black">
-                          <div className="flex items-end gap-[1px] h-[9px]">
-                            <div className="w-[2px] h-[2.5px] bg-black rounded-[0.5px]" />
-                            <div className="w-[2px] h-[4.5px] bg-black rounded-[0.5px]" />
-                            <div className="w-[2px] h-[6.5px] bg-black rounded-[0.5px]" />
-                            <div className="w-[2px] h-[8.5px] bg-black rounded-[0.5px]" />
+                        <div className="flex items-center gap-0.5 sm:gap-1 text-black">
+                          <div className="flex items-end gap-[1px] h-[6px] sm:h-[9px]">
+                            <div className="w-[1px] sm:w-[2px] h-[1.5px] sm:h-[2.5px] bg-black rounded-[0.5px]" />
+                            <div className="w-[1px] sm:w-[2px] h-[3px] sm:h-[4.5px] bg-black rounded-[0.5px]" />
+                            <div className="w-[1px] sm:w-[2px] h-[4.5px] sm:h-[6.5px] bg-black rounded-[0.5px]" />
+                            <div className="w-[1px] sm:w-[2px] h-[6px] sm:h-[8.5px] bg-black rounded-[0.5px]" />
                           </div>
 
-                          <svg width="11" height="9" viewBox="0 0 16 12" fill="currentColor">
-                            <path d="M8 9.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" />
-                            <path d="M4.5 7.5a5 5 0 017 0 .75.75 0 001.06-1.06 6.5 6.5 0 00-9.12 0 .75.75 0 101.06 1.06z" />
-                            <path d="M2 4.5a8.5 8.5 0 0112 0 .75.75 0 001.06-1.06 10 10 0 00-14.12 0 .75.75 0 001.06 1.06z" />
-                          </svg>
-
                           <div className="flex items-center">
-                            <div className="w-[14px] sm:w-[16px] h-[8px] sm:h-[8.5px] border-[1.2px] border-black rounded-[3px] p-[1px] flex items-center">
+                            <div className="w-[10px] sm:w-[14px] md:w-[16px] h-[5px] sm:h-[8px] md:h-[8.5px] border-[1px] sm:border-[1.2px] border-black rounded-[2px] sm:rounded-[3px] p-[0.5px] sm:p-[1px] flex items-center">
                               <div className="w-full h-full bg-black rounded-[0.5px]" />
                             </div>
-                            <div className="w-[1px] h-[2.5px] bg-black rounded-r-[0.5px]" />
                           </div>
                         </div>
                       </div>
 
                       {/* Header Greeting */}
-                      <div className="space-y-0.5 pt-1">
-                        <p className="text-[8.5px] sm:text-[9px] text-[#747775] font-semibold">Official Review Request</p>
-                        <h4 className="text-base sm:text-lg font-black text-[#1f1f1f] tracking-tight">
+                      <div className="space-y-0.5 pt-0.5 sm:pt-1">
+                        <p className="text-[6.5px] sm:text-[8.5px] md:text-[9px] text-[#747775] font-semibold">Review Request</p>
+                        <h4 className="text-[9.5px] sm:text-base md:text-lg font-black text-[#1f1f1f] tracking-tight">
                           Hey Usman<span className="text-[#0b57d0]">.</span>
                         </h4>
                       </div>
 
                       {/* Business Card with Star Rating */}
-                      <div className="bg-white rounded-xl p-2 sm:p-2.5 border border-[#e1e3e1] space-y-1.5 sm:space-y-2">
-                        <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-[#e8f0fe] text-[#0b57d0] font-extrabold text-xs flex items-center justify-center">
+                      <div className="bg-white rounded-md sm:rounded-xl p-1 sm:p-2 md:p-2.5 border border-[#e1e3e1] space-y-1 sm:space-y-1.5 md:space-y-2">
+                        <div className="flex items-center gap-1 sm:gap-2">
+                          <div className="w-4 h-4 sm:w-6 sm:h-6 md:w-7 md:h-7 rounded-full bg-[#e8f0fe] text-[#0b57d0] font-extrabold text-[8px] sm:text-xs flex items-center justify-center shrink-0">
                             🦷
                           </div>
-                          <div>
-                            <p className="text-[10px] sm:text-[11px] font-bold text-[#1f1f1f]">Apex Dental Care</p>
-                            <p className="text-[8px] sm:text-[9px] text-[#747775]">Dental Implant & Cleaning</p>
+                          <div className="min-w-0">
+                            <p className="text-[8px] sm:text-[10px] md:text-[11px] font-bold text-[#1f1f1f] truncate">Apex Dental</p>
+                            <p className="text-[6.5px] sm:text-[8px] md:text-[9px] text-[#747775] truncate">Dental Care</p>
                           </div>
                         </div>
 
                         {/* 5-Star Rating Selector */}
-                        <div className="flex items-center justify-center gap-1 sm:gap-1.5 py-1 sm:py-1.5 bg-[#fef7e0]/80 rounded-lg border border-[#feefc3]">
+                        <div className="flex items-center justify-center gap-0.5 sm:gap-1 md:gap-1.5 py-0.5 sm:py-1 md:py-1.5 bg-[#fef7e0]/80 rounded-sm sm:rounded-lg border border-[#feefc3]">
                           {[1, 2, 3, 4, 5].map((s) => (
-                            <Star key={s} size={14} className="fill-[#f9ab00] text-[#f9ab00]" />
+                            <Star key={s} size={8} className="fill-[#f9ab00] text-[#f9ab00] sm:w-3.5 sm:h-3.5" />
                           ))}
                         </div>
                       </div>
 
                       {/* Customer Draft Thoughts */}
-                      <div className="bg-white rounded-xl p-2 sm:p-2.5 border border-[#e1e3e1] space-y-1">
-                        <span className="text-[8.5px] sm:text-[9px] font-bold text-[#747775]">Your Experience:</span>
-                        <p className="text-[9.5px] sm:text-[10px] text-[#1f1f1f] italic bg-[#f8fafd] p-1.5 sm:p-2 rounded-lg border border-[#e1e3e1]/60 leading-relaxed">
-                          &ldquo;doctor was very gentle and friendly clinic is clean and on time&rdquo;
+                      <div className="bg-white rounded-md sm:rounded-xl p-1 sm:p-2 md:p-2.5 border border-[#e1e3e1] space-y-0.5 sm:space-y-1">
+                        <span className="text-[6.5px] sm:text-[8.5px] md:text-[9px] font-bold text-[#747775]">Experience:</span>
+                        <p className="text-[7px] sm:text-[9.5px] md:text-[10px] text-[#1f1f1f] italic bg-[#f8fafd] p-1 sm:p-1.5 md:p-2 rounded-sm sm:rounded-lg border border-[#e1e3e1]/60 leading-tight sm:leading-relaxed line-clamp-2 sm:line-clamp-none">
+                          &ldquo;doctor friendly clinic is clean&rdquo;
                         </p>
                       </div>
 
                       {/* AI Polished Suggestion Card */}
-                      <div className="bg-[#f3e8fd] rounded-xl p-2 sm:p-2.5 border border-[#e9d5ff] space-y-1">
-                        <div className="flex items-center gap-1 text-[8.5px] sm:text-[9px] font-bold text-[#7e22ce]">
-                          <Sparkles size={10} />
-                          <span>AI Polished Review:</span>
+                      <div className="bg-[#f3e8fd] rounded-md sm:rounded-xl p-1 sm:p-2 md:p-2.5 border border-[#e9d5ff] space-y-0.5 sm:space-y-1">
+                        <div className="flex items-center gap-0.5 sm:gap-1 text-[6.5px] sm:text-[8.5px] md:text-[9px] font-bold text-[#7e22ce]">
+                          <Sparkles size={8} className="sm:w-2.5 sm:h-2.5" />
+                          <span>AI Polished:</span>
                         </div>
-                        <p className="text-[9.5px] sm:text-[10px] text-[#1f1f1f] font-medium leading-relaxed">
-                          &ldquo;The doctor was extremely gentle and professional throughout the procedure. Impeccably clean clinic!&rdquo;
+                        <p className="text-[7px] sm:text-[9.5px] md:text-[10px] text-[#1f1f1f] font-medium leading-tight sm:leading-relaxed line-clamp-2 sm:line-clamp-none">
+                          &ldquo;Extremely gentle & professional! Impeccably clean clinic.&rdquo;
                         </p>
                       </div>
 
                       {/* 1-Tap Google Button & iOS Home Indicator Bar */}
-                      <div className="space-y-1.5 pt-0.5">
-                        <button className="w-full py-2 sm:py-2.5 bg-[#0b57d0] hover:bg-[#0842a0] text-white rounded-full font-bold text-[10px] sm:text-[11px] flex items-center justify-center gap-1.5 transition-all shadow-xs">
-                          <span>Post on Google Reviews</span>
-                          <ArrowRight size={11} />
+                      <div className="space-y-1 sm:space-y-1.5 pt-0.5">
+                        <button className="w-full py-1 sm:py-2 md:py-2.5 bg-[#0b57d0] hover:bg-[#0842a0] text-white rounded-full font-bold text-[7px] sm:text-[10px] md:text-[11px] flex items-center justify-center gap-1 sm:gap-1.5 transition-all shadow-xs">
+                          <span>Post on Google</span>
+                          <ArrowRight size={8} className="sm:w-3 sm:h-3" />
                         </button>
 
                         {/* iOS Home Indicator Bar */}
-                        <div className="w-20 sm:w-24 h-1 bg-black/30 rounded-full mx-auto" />
+                        <div className="w-10 sm:w-20 md:w-24 h-0.5 sm:h-1 bg-black/30 rounded-full mx-auto" />
                       </div>
                     </div>
                   </div>
