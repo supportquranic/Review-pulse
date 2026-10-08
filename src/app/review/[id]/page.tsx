@@ -6,7 +6,30 @@ import { Star, Sparkles, Check, ArrowRight, ExternalLink, RefreshCw, AlertCircle
 import confetti from 'canvas-confetti';
 import { GoogleLogo, GoogleGReviewBadge } from '@/components/GoogleLogo';
 import { LanguageOption, ReviewRequest, BusinessProfile } from '@/lib/types';
-import { getReviewRequestById, updateReviewRequest, getBusinessProfile } from '@/lib/data-service';
+import { getReviewRequestDetails, updateReviewRequest } from '@/lib/data-service';
+
+function getSafeGoogleReviewUrl(business?: BusinessProfile | null): string {
+  if (!business) return 'https://www.google.com';
+
+  const rawLink = business.google_review_link?.trim();
+
+  if (rawLink && rawLink.startsWith('http')) {
+    // If it's a bare writereview link missing a valid placeid, route safely to Google Maps search
+    if (
+      rawLink === 'https://search.google.com/local/writereview' ||
+      rawLink === 'http://search.google.com/local/writereview' ||
+      rawLink.endsWith('/writereview')
+    ) {
+      const q = encodeURIComponent(`${business.business_name || 'Business'} ${business.city || ''}`.trim());
+      return `https://www.google.com/maps/search/?api=1&query=${q}`;
+    }
+    return rawLink;
+  }
+
+  // Safe fallback to Google Maps search
+  const query = encodeURIComponent(`${business.business_name || 'Business'} ${business.city || ''}`.trim());
+  return `https://www.google.com/maps/search/?api=1&query=${query}`;
+}
 
 export default function CustomerReviewPage() {
   const urlParams = useParams();
@@ -35,10 +58,7 @@ export default function CustomerReviewPage() {
   useEffect(() => {
     async function loadData() {
       try {
-        const [reqData, bizData] = await Promise.all([
-          getReviewRequestById(requestId),
-          getBusinessProfile(),
-        ]);
+        const { request: reqData, business: bizData } = await getReviewRequestDetails(requestId);
 
         if (reqData) {
           setRequest(reqData);
@@ -145,14 +165,12 @@ export default function CustomerReviewPage() {
 
     setIsCompleted(true);
 
-    // 4. Redirect / open Google Review link
-    const googleLink =
-      business?.google_review_link ||
-      'https://search.google.com/local/writereview';
+    // 4. Redirect / open safe Google Review link
+    const googleLink = getSafeGoogleReviewUrl(business);
 
     setTimeout(() => {
       window.open(googleLink, '_blank', 'noopener,noreferrer');
-    }, 1200);
+    }, 1000);
   };
 
   const ratingDescriptions: { [key: number]: string } = {

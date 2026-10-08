@@ -202,27 +202,37 @@ export async function createReviewRequest(
   return newRecord;
 }
 
-export async function getReviewRequestById(id: string): Promise<ReviewRequest | null> {
+export async function getReviewRequestDetails(id: string): Promise<{
+  request: ReviewRequest | null;
+  business: BusinessProfile | null;
+}> {
   try {
     const res = await fetch(`/api/review/${encodeURIComponent(id)}`);
     if (res.ok) {
       const data = await res.json();
       if (data.request) {
-        return data.request as ReviewRequest;
+        return {
+          request: data.request as ReviewRequest,
+          business: (data.business as BusinessProfile) || null,
+        };
       }
     }
   } catch (e) {
-    console.warn('API get review request by id fallback:', e);
+    console.warn('API get review request details fallback:', e);
   }
 
   const list = getLocalItem<ReviewRequest[]>(STORAGE_KEYS.REQUESTS, []);
   const found = list.find((item) => item.id === id);
-  if (found) return found;
+  const profile = getLocalItem<BusinessProfile | null>(STORAGE_KEYS.PROFILE, null);
+
+  if (found) {
+    return { request: found, business: profile };
+  }
 
   // If not found in list, create a virtual record for instant preview
   const virtualRecord: ReviewRequest = {
     id,
-    business_id: 'biz_default',
+    business_id: profile?.id || 'biz_default',
     customer_name: 'Valued Customer',
     contact_method: 'direct',
     order_service_name: 'Customer Service',
@@ -230,7 +240,12 @@ export async function getReviewRequestById(id: string): Promise<ReviewRequest | 
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   };
-  return virtualRecord;
+  return { request: virtualRecord, business: profile };
+}
+
+export async function getReviewRequestById(id: string): Promise<ReviewRequest | null> {
+  const details = await getReviewRequestDetails(id);
+  return details.request;
 }
 
 export async function updateReviewRequest(
