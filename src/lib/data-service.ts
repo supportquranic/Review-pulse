@@ -12,6 +12,47 @@ export interface CurrentUser {
   business_name?: string;
 }
 
+// -------------------------------------------------------------
+// SAFE GOOGLE REVIEW LINK RESOLVER
+// -------------------------------------------------------------
+export function getSafeGoogleReviewUrl(business?: Partial<BusinessProfile> | null): string {
+  if (!business) return 'https://www.google.com/maps';
+
+  let rawLink = (business.google_review_link || '').trim();
+
+  // 1. If user provided a Place ID directly (e.g. ChIJN1t_tDeuEmsRUsoyG83frY4)
+  if (rawLink && /^[a-zA-Z0-9_-]{20,}$/.test(rawLink) && !rawLink.includes('.') && !rawLink.includes('/') && !rawLink.includes('http')) {
+    return `https://search.google.com/local/writereview?placeid=${encodeURIComponent(rawLink)}`;
+  }
+
+  // 2. If user provided a URL without protocol (e.g. g.page/r/... or maps.google.com/...)
+  if (rawLink && !rawLink.startsWith('http://') && !rawLink.startsWith('https://')) {
+    rawLink = `https://${rawLink}`;
+  }
+
+  // 3. If rawLink is present, check for bare /writereview missing a place ID which causes Google 404
+  if (rawLink) {
+    try {
+      const url = new URL(rawLink);
+      if (url.pathname.includes('writereview') || url.pathname.endsWith('/writereview')) {
+        const placeid = url.searchParams.get('placeid') || url.searchParams.get('place_id');
+        if (!placeid) {
+          // Missing placeid on writereview causes Google 404 -> safely route to Google Maps search
+          const q = encodeURIComponent(`${business.business_name || 'Business'} ${business.city || ''}`.trim());
+          return `https://www.google.com/maps/search/?api=1&query=${q}`;
+        }
+      }
+      return rawLink;
+    } catch {
+      // Invalid URL format, fallback below
+    }
+  }
+
+  // 4. Safe fallback to Google Maps search for this business
+  const query = encodeURIComponent(`${business.business_name || 'Business'} ${business.city || ''}`.trim());
+  return `https://www.google.com/maps/search/?api=1&query=${query}`;
+}
+
 // Helper to access LocalStorage safely
 function getLocalItem<T>(key: string, defaultValue: T): T {
   if (typeof window === 'undefined') return defaultValue;

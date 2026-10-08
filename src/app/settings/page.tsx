@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Sidebar } from '@/components/Sidebar';
 import { CreateRequestModal } from '@/components/CreateRequestModal';
 import { BusinessProfile, LanguageOption } from '@/lib/types';
-import { getBusinessProfile, saveBusinessProfile } from '@/lib/data-service';
+import { getBusinessProfile, saveBusinessProfile, getSafeGoogleReviewUrl } from '@/lib/data-service';
 import { GoogleLogo } from '@/components/GoogleLogo';
 import {
   Building2,
@@ -176,28 +176,25 @@ export default function SettingsPage() {
                     <Link2 size={14} className="text-[#0b57d0]" />
                     <span>Google Review Direct URL</span>
                   </label>
-                  {googleReviewLink && (
-                    <a
-                      href={googleReviewLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[11px] text-[#0b57d0] hover:underline flex items-center gap-1"
-                    >
-                      <span>Test Link</span>
-                      <ExternalLink size={11} />
-                    </a>
-                  )}
+                  <a
+                    href={getSafeGoogleReviewUrl({ google_review_link: googleReviewLink, business_name: businessName, city })}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[11px] text-[#0b57d0] hover:underline flex items-center gap-1"
+                  >
+                    <span>Test Link</span>
+                    <ExternalLink size={11} />
+                  </a>
                 </div>
                 <input
-                  type="url"
-                  required
-                  placeholder="https://search.google.com/local/writereview?placeid=..."
+                  type="text"
+                  placeholder="e.g. https://g.page/r/.../review or https://maps.app.goo.gl/... or Place ID"
                   value={googleReviewLink}
                   onChange={(e) => setGoogleReviewLink(e.target.value)}
                   className="w-full px-4 py-2.5 rounded-xl border border-[#dadce0] bg-white text-sm text-[#1f1f1f] focus:outline-hidden focus:border-[#0b57d0] focus:ring-2 focus:ring-[#0b57d0]/10 transition-all"
                 />
                 <p className="text-[11px] text-[#747775] mt-1">
-                  Customers will be redirected here after polishing their genuine review text.
+                  Paste your Google Business &quot;Ask for reviews&quot; link, short link, or Place ID. If left blank, it automatically searches your business name and city on Google Maps.
                 </p>
               </div>
 

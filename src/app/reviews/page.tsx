@@ -5,7 +5,7 @@ import { Sidebar } from '@/components/Sidebar';
 import { CreateRequestModal } from '@/components/CreateRequestModal';
 import { GoogleLogo, GoogleGReviewBadge } from '@/components/GoogleLogo';
 import { BusinessProfile, ReviewRequest } from '@/lib/types';
-import { getBusinessProfile, getReviewRequests } from '@/lib/data-service';
+import { getBusinessProfile, getReviewRequests, getSafeGoogleReviewUrl } from '@/lib/data-service';
 import { Star, MessageSquareCheck, Sparkles, ExternalLink, Calendar, UserCheck } from 'lucide-react';
 
 export default function ReviewsPage() {
@@ -60,17 +60,15 @@ export default function ReviewsPage() {
               </p>
             </div>
 
-            {profile?.google_review_link && (
-              <a
-                href={profile.google_review_link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#f0f4f9] hover:bg-[#e8f0fe] text-[#0b57d0] rounded-full text-xs font-semibold border border-[#dadce0] transition-colors"
-              >
-                <span>Check Live Google Profile</span>
-                <ExternalLink size={13} />
-              </a>
-            )}
+            <a
+              href={getSafeGoogleReviewUrl(profile)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#f0f4f9] hover:bg-[#e8f0fe] text-[#0b57d0] rounded-full text-xs font-semibold border border-[#dadce0] transition-colors"
+            >
+              <span>Check Live Google Profile</span>
+              <ExternalLink size={13} />
+            </a>
           </div>
 
           {/* Reviews Grid */}

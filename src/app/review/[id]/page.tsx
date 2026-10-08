@@ -6,30 +6,7 @@ import { Star, Sparkles, Check, ArrowRight, ExternalLink, RefreshCw, AlertCircle
 import confetti from 'canvas-confetti';
 import { GoogleLogo, GoogleGReviewBadge } from '@/components/GoogleLogo';
 import { LanguageOption, ReviewRequest, BusinessProfile } from '@/lib/types';
-import { getReviewRequestDetails, updateReviewRequest } from '@/lib/data-service';
-
-function getSafeGoogleReviewUrl(business?: BusinessProfile | null): string {
-  if (!business) return 'https://www.google.com';
-
-  const rawLink = business.google_review_link?.trim();
-
-  if (rawLink && rawLink.startsWith('http')) {
-    // If it's a bare writereview link missing a valid placeid, route safely to Google Maps search
-    if (
-      rawLink === 'https://search.google.com/local/writereview' ||
-      rawLink === 'http://search.google.com/local/writereview' ||
-      rawLink.endsWith('/writereview')
-    ) {
-      const q = encodeURIComponent(`${business.business_name || 'Business'} ${business.city || ''}`.trim());
-      return `https://www.google.com/maps/search/?api=1&query=${q}`;
-    }
-    return rawLink;
-  }
-
-  // Safe fallback to Google Maps search
-  const query = encodeURIComponent(`${business.business_name || 'Business'} ${business.city || ''}`.trim());
-  return `https://www.google.com/maps/search/?api=1&query=${query}`;
-}
+import { getReviewRequestDetails, updateReviewRequest, getSafeGoogleReviewUrl } from '@/lib/data-service';
 
 export default function CustomerReviewPage() {
   const urlParams = useParams();
@@ -226,20 +203,31 @@ export default function CustomerReviewPage() {
           )}
         </header>
 
-        {/* Review Reward Discount Banner */}
-        <div className="mb-4 p-3.5 rounded-2xl bg-[#e6f4ea] border border-[#ceead6] text-[#137333] flex items-center gap-3 shadow-2xs">
-          <div className="w-8 h-8 rounded-full bg-white text-[#137333] flex items-center justify-center font-bold text-sm shrink-0 shadow-xs">
-            🎁
+        {/* Review Reward Discount Banner (Only shown if business has an active discount > 0%) */}
+        {business?.discount_percentage && business.discount_percentage > 0 ? (
+          <div className="mb-4 p-3.5 rounded-2xl bg-[#e6f4ea] border border-[#ceead6] text-[#137333] flex items-center gap-3 shadow-2xs">
+            <div className="w-8 h-8 rounded-full bg-white text-[#137333] flex items-center justify-center font-bold text-sm shrink-0 shadow-xs">
+              🎁
+            </div>
+            <div className="text-left">
+              <p className="text-xs font-bold">
+                Get {business.discount_percentage}% OFF On Your Next Visit!
+              </p>
+              <p className="text-[11px] opacity-90 leading-tight mt-0.5">
+                Leave your quick Google review below to unlock your discount coupon code.
+              </p>
+            </div>
           </div>
-          <div className="text-left">
-            <p className="text-xs font-bold">
-              Get {business?.discount_percentage && business.discount_percentage > 0 ? business.discount_percentage : 10}% OFF On Your Next Visit!
-            </p>
-            <p className="text-[11px] opacity-90 leading-tight mt-0.5">
-              Leave your quick Google review below to unlock your discount coupon code.
+        ) : (
+          <div className="mb-4 p-3 rounded-2xl bg-[#f0f4f9] border border-[#e1e3e1] text-[#444746] flex items-center gap-2.5 shadow-2xs">
+            <div className="w-7 h-7 rounded-full bg-white text-[#0b57d0] flex items-center justify-center text-xs shrink-0 shadow-xs">
+              ⭐
+            </div>
+            <p className="text-xs font-medium text-[#444746]">
+              Share your genuine experience on Google Reviews in just 10 seconds.
             </p>
           </div>
-        </div>
+        )}
 
         {isCompleted ? (
           /* Thank You & Redirect State */
@@ -252,26 +240,28 @@ export default function CustomerReviewPage() {
               Your genuine review text has been copied to your clipboard. If Google Reviews didn&apos;t open automatically, click the button below:
             </p>
 
-            {/* Special Reward Coupon */}
-            <div className="p-4 rounded-2xl bg-[#fef7e0] border border-[#feefc3] text-[#b06000] text-center space-y-1 my-2">
-              <span className="text-[10px] font-bold uppercase tracking-wider">Your Special Reward</span>
-              <p className="text-xl font-black text-[#1f1f1f]">
-                {business?.discount_percentage && business.discount_percentage > 0 ? business.discount_percentage : 10}% OFF Voucher
-              </p>
-              <p className="text-[11px] text-[#747775]">
-                Show this screen or use code{' '}
-                <strong className="font-mono text-[#1f1f1f]">
-                  THANKYOU{business?.discount_percentage && business.discount_percentage > 0 ? business.discount_percentage : 10}
-                </strong>{' '}
-                on your next visit!
-              </p>
-            </div>
+            {/* Special Reward Coupon (Only shown if business configured a discount percentage > 0) */}
+            {business?.discount_percentage && business.discount_percentage > 0 ? (
+              <div className="p-4 rounded-2xl bg-[#fef7e0] border border-[#feefc3] text-[#b06000] text-center space-y-1 my-2">
+                <span className="text-[10px] font-bold uppercase tracking-wider">Your Special Reward</span>
+                <p className="text-xl font-black text-[#1f1f1f]">
+                  {business.discount_percentage}% OFF Voucher
+                </p>
+                <p className="text-[11px] text-[#747775]">
+                  Show this screen or use code{' '}
+                  <strong className="font-mono text-[#1f1f1f]">
+                    THANKYOU{business.discount_percentage}
+                  </strong>{' '}
+                  on your next visit!
+                </p>
+              </div>
+            ) : null}
 
             <a
-              href={business?.google_review_link || 'https://search.google.com/local/writereview'}
+              href={getSafeGoogleReviewUrl(business)}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full inline-flex items-center justify-center gap-2 py-3 bg-[#0b57d0] text-white rounded-full font-semibold text-sm shadow-xs"
+              className="w-full inline-flex items-center justify-center gap-2 py-3 bg-[#0b57d0] hover:bg-[#0842a0] text-white rounded-full font-semibold text-sm shadow-xs transition-colors"
             >
               <span>Open Google Reviews</span>
               <ExternalLink size={16} />

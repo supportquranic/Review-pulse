@@ -6,7 +6,7 @@ import { Sidebar } from '@/components/Sidebar';
 import { CreateRequestModal } from '@/components/CreateRequestModal';
 import { GoogleLogo, GoogleGReviewBadge } from '@/components/GoogleLogo';
 import { BusinessProfile, ReviewRequest } from '@/lib/types';
-import { getBusinessProfile, getReviewRequests, getDashboardMetrics } from '@/lib/data-service';
+import { getBusinessProfile, getReviewRequests, getDashboardMetrics, getSafeGoogleReviewUrl } from '@/lib/data-service';
 import {
   Send,
   Eye,
@@ -59,8 +59,9 @@ export default function DashboardPage() {
   }, []);
 
   const handleCopyGoogleLink = () => {
-    if (profile?.google_review_link) {
-      navigator.clipboard.writeText(profile.google_review_link);
+    const link = getSafeGoogleReviewUrl(profile);
+    if (link) {
+      navigator.clipboard.writeText(link);
       setCopiedLink(true);
       setTimeout(() => setCopiedLink(false), 2000);
     }
@@ -146,17 +147,15 @@ export default function DashboardPage() {
                 <span>{copiedLink ? 'Link Copied!' : 'Copy Review Link'}</span>
               </button>
 
-              {profile?.google_review_link && (
-                <a
-                  href={profile.google_review_link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 px-3.5 py-2 bg-white text-[#444746] hover:text-[#0b57d0] rounded-full text-xs font-medium border border-[#dadce0] transition-colors"
-                >
-                  <span>Test Dialog</span>
-                  <ExternalLink size={13} />
-                </a>
-              )}
+              <a
+                href={getSafeGoogleReviewUrl(profile)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 px-3.5 py-2 bg-white text-[#444746] hover:text-[#0b57d0] rounded-full text-xs font-medium border border-[#dadce0] transition-colors"
+              >
+                <span>Test Dialog</span>
+                <ExternalLink size={13} />
+              </a>
             </div>
           </div>
 

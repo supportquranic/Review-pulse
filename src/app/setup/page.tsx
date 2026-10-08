@@ -35,8 +35,8 @@ export default function BusinessSetupPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!businessName || !googleReviewLink) {
-      alert('Please fill in both Business Name and Google Review Link');
+    if (!businessName.trim()) {
+      alert('Please fill in your Business Name');
       return;
     }
 
@@ -133,18 +133,17 @@ export default function BusinessSetupPage() {
           <div>
             <label className="block text-xs font-semibold text-[#444746] mb-1.5 flex items-center gap-1.5">
               <Link2 size={14} className="text-[#0b57d0]" />
-              <span>Google Review Direct Link *</span>
+              <span>Google Review Direct Link (Optional)</span>
             </label>
             <input
-              type="url"
-              required
-              placeholder="https://search.google.com/local/writereview?placeid=..."
+              type="text"
+              placeholder="e.g. https://g.page/r/.../review or https://maps.app.goo.gl/... or Place ID"
               value={googleReviewLink}
               onChange={(e) => setGoogleReviewLink(e.target.value)}
               className="w-full px-4 py-2.5 rounded-xl border border-[#dadce0] bg-white text-sm text-[#1f1f1f] focus:outline-hidden focus:border-[#0b57d0] focus:ring-2 focus:ring-[#0b57d0]/10 transition-all"
             />
             <p className="text-[11px] text-[#747775] mt-1">
-              Find this in your Google Business Profile &gt; &quot;Ask for reviews&quot; link.
+              From your Google Business Profile &gt; &quot;Ask for reviews&quot; or Place ID. If blank, it automatically searches your business name and city on Google Maps.
             </p>
           </div>
 

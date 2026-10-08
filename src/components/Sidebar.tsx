@@ -16,7 +16,7 @@ import {
   Star,
 } from 'lucide-react';
 import { BusinessProfile } from '@/lib/types';
-import { logoutUser } from '@/lib/data-service';
+import { logoutUser, getSafeGoogleReviewUrl } from '@/lib/data-service';
 
 interface SidebarProps {
   profile?: BusinessProfile | null;
@@ -232,17 +232,15 @@ export function Sidebar({ profile, onOpenCreateModal }: SidebarProps) {
               </div>
             </div>
 
-            {profile?.google_review_link && (
-              <a
-                href={profile.google_review_link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-2 text-[11px] text-[#0b57d0] hover:underline flex items-center gap-1 truncate"
-              >
-                <span>Google Review Link</span>
-                <ExternalLink size={11} className="shrink-0" />
-              </a>
-            )}
+            <a
+              href={getSafeGoogleReviewUrl(profile)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 text-[11px] text-[#0b57d0] hover:underline flex items-center gap-1 truncate"
+            >
+              <span>Google Review Link</span>
+              <ExternalLink size={11} className="shrink-0" />
+            </a>
           </div>
 
           <div className="flex items-center justify-between px-1 text-[11px] text-[#747775]">
