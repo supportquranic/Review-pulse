@@ -209,19 +209,19 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-[#f8fafd] text-[#1f1f1f] flex flex-col justify-between selection:bg-[#e8f0fe] selection:text-[#0b57d0]">
       {/* Top Navbar */}
-      <header className="h-20 lg:h-22 bg-white/90 backdrop-blur-md border-b border-[#e1e3e1] px-6 lg:px-16 flex items-center justify-between sticky top-0 z-50">
-        {/* Pure text typographic logo - No icon */}
+      <header className="h-16 sm:h-20 lg:h-22 bg-white/90 backdrop-blur-md border-b border-[#e1e3e1] px-4 sm:px-6 lg:px-16 flex items-center justify-between sticky top-0 z-50">
+        {/* Pure text typographic logo */}
         <Link href="/" className="flex flex-col select-none">
-          <span className="font-extrabold text-2xl lg:text-[26px] tracking-tight text-[#1f1f1f]">
+          <span className="font-extrabold text-xl sm:text-2xl lg:text-[26px] tracking-tight text-[#1f1f1f]">
             Review<span className="text-[#0b57d0]">Pulse</span>
           </span>
-          <span className="text-[11px] text-[#747775] font-medium -mt-1 tracking-wide">
+          <span className="text-[10px] sm:text-[11px] text-[#747775] font-medium -mt-1 tracking-wide">
             Automated Google Reviews
           </span>
         </Link>
 
-        {/* Center Nav Links - Bigger & Clearer */}
-        <nav className="hidden md:flex items-center gap-9 text-sm font-semibold text-[#444746]">
+        {/* Center Nav Links - Visible on Desktop */}
+        <nav className="hidden md:flex items-center gap-7 lg:gap-9 text-sm font-semibold text-[#444746]">
           <a href="#features" className="hover:text-[#0b57d0] transition-colors">
             Features
           </a>
@@ -239,70 +239,70 @@ export default function HomePage() {
           </Link>
         </nav>
 
-        {/* Action Buttons - Bigger & Bolder */}
-        <div className="flex items-center gap-3.5">
+        {/* Action Buttons */}
+        <div className="flex items-center gap-2 sm:gap-3.5">
           <Link
             href="/auth/login"
-            className="px-5 py-2.5 text-sm font-semibold text-[#444746] hover:text-[#1f1f1f] transition-colors"
+            className="px-3 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold text-[#444746] hover:text-[#1f1f1f] transition-colors"
           >
             Sign In
           </Link>
           <Link
-            href="/dashboard"
-            className="flex items-center gap-2 px-6 py-3 bg-[#0b57d0] hover:bg-[#0842a0] text-white rounded-full font-bold text-sm shadow-xs hover:shadow-md transition-all active:scale-[0.98]"
+            href="/auth/signup"
+            className="flex items-center gap-1.5 px-4 sm:px-6 py-2 sm:py-3 bg-[#0b57d0] hover:bg-[#0842a0] text-white rounded-full font-bold text-xs sm:text-sm shadow-xs hover:shadow-md transition-all active:scale-[0.98]"
           >
             <span>Get Started</span>
-            <ArrowRight size={16} />
+            <ArrowRight size={14} className="sm:w-4 sm:h-4" />
           </Link>
         </div>
       </header>
 
-      <main className="flex-1 space-y-20 pb-16">
+      <main className="flex-1 space-y-12 sm:space-y-20 pb-16">
         {/* 1. Full-Screen Hero Headline & Value Pitch */}
-        <section className="min-h-[calc(100vh-5rem)] flex flex-col items-center justify-center text-center px-6 py-12 max-w-6xl mx-auto space-y-9 select-none">
-          <div className="space-y-6 flex flex-col items-center">
-            {/* Main Headline - Strict 2 Balanced Lines with 'into' on first line */}
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[68px] xl:text-[76px] font-black text-[#1f1f1f] tracking-[-0.035em] leading-[1.08] max-w-6xl">
+        <section className="min-h-[70vh] sm:min-h-[calc(100vh-5rem)] flex flex-col items-center justify-center text-center px-4 sm:px-6 py-8 sm:py-12 max-w-6xl mx-auto space-y-6 sm:space-y-9 select-none">
+          <div className="space-y-4 sm:space-y-6 flex flex-col items-center">
+            {/* Main Headline */}
+            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-[68px] xl:text-[76px] font-black text-[#1f1f1f] tracking-[-0.035em] leading-[1.12] sm:leading-[1.08] max-w-6xl">
               <span className="block">Turn Happy Customers into</span>
               <span className="block text-[#0b57d0]">5-Star Google Reviews</span>
             </h1>
 
             {/* Subheading */}
-            <p className="text-lg sm:text-xl lg:text-2xl text-[#444746] max-w-3xl leading-relaxed font-normal">
+            <p className="text-sm sm:text-lg lg:text-2xl text-[#444746] max-w-3xl leading-relaxed font-normal">
               Send instant 1-tap WhatsApp review requests, polish customer thoughts with AI, and dominate local Google search without awkward asking.
             </p>
           </div>
 
           {/* CTA Buttons */}
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto pt-2">
             <Link
-              href="/dashboard"
-              className="flex items-center gap-2.5 px-8 py-4 bg-[#0b57d0] hover:bg-[#0842a0] text-white rounded-full font-bold text-sm shadow-md hover:shadow-lg transition-all active:scale-[0.98]"
+              href="/auth/signup"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 sm:py-4 bg-[#0b57d0] hover:bg-[#0842a0] text-white rounded-full font-bold text-sm shadow-md hover:shadow-lg transition-all active:scale-[0.98]"
             >
-              <span>Start Collecting Reviews</span>
+              <span>Get Started (Free)</span>
               <ArrowRight size={16} />
             </Link>
 
             <Link
               href="/auth/signup"
-              className="flex items-center gap-2 px-7 py-4 bg-white hover:bg-[#f0f4f9] text-[#1f1f1f] border border-[#dadce0] rounded-full font-semibold text-sm shadow-2xs transition-all"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 sm:px-7 py-3.5 sm:py-4 bg-white hover:bg-[#f0f4f9] text-[#1f1f1f] border border-[#dadce0] rounded-full font-semibold text-sm shadow-2xs transition-all"
             >
               <span>Create Free Account</span>
             </Link>
           </div>
 
           {/* Reassurance pills */}
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-6 text-xs text-[#747775]">
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-[11px] sm:text-xs text-[#747775]">
             <div className="flex items-center gap-1.5">
-              <CheckCircle2 size={15} className="text-[#137333]" />
+              <CheckCircle2 size={14} className="text-[#137333]" />
               <span>100% Google Policy Compliant</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <CheckCircle2 size={15} className="text-[#137333]" />
+              <CheckCircle2 size={14} className="text-[#137333]" />
               <span>No Customer Login Needed</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <CheckCircle2 size={15} className="text-[#137333]" />
+              <CheckCircle2 size={14} className="text-[#137333]" />
               <span>Ready in 2 Minutes</span>
             </div>
           </div>
@@ -837,18 +837,18 @@ export default function HomePage() {
             <p className="text-xs sm:text-sm text-white/80 max-w-xl mx-auto leading-relaxed">
               Join hundreds of high-growth local businesses using ReviewPulse to collect authentic, 5-star reviews on complete autopilot.
             </p>
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-              <Link
-                href="/dashboard"
-                className="px-8 py-3.5 bg-white text-[#0b57d0] hover:bg-[#f8fafd] rounded-full font-bold text-xs shadow-md hover:shadow-lg transition-all active:scale-[0.98]"
-              >
-                Launch Dashboard Now
-              </Link>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
               <Link
                 href="/auth/signup"
-                className="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-full font-semibold text-xs transition-all"
+                className="w-full sm:w-auto px-8 py-3.5 bg-white text-[#0b57d0] hover:bg-[#f8fafd] rounded-full font-bold text-xs shadow-md hover:shadow-lg transition-all active:scale-[0.98]"
               >
                 Create Business Account
+              </Link>
+              <Link
+                href="/auth/login"
+                className="w-full sm:w-auto px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-full font-semibold text-xs transition-all"
+              >
+                Sign In to Existing Account
               </Link>
             </div>
           </div>
