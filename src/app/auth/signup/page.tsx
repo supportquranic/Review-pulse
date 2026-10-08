@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Mail, Lock, ArrowRight, Building2, Sparkles } from 'lucide-react';
 import { GoogleLogo } from '@/components/GoogleLogo';
-import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { saveBusinessProfile } from '@/lib/data-service';
 
 export default function SignupPage() {
@@ -22,19 +21,23 @@ export default function SignupPage() {
     setError(null);
 
     try {
-      if (isSupabaseConfigured()) {
-        const { data, error: authError } = await supabase.auth.signUp({
+      const res = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           email,
           password,
-        });
-        if (authError) throw authError;
+          business_name: businessName || 'My Business',
+        }),
+      });
 
-        if (data.user) {
-          await saveBusinessProfile({
-            user_id: data.user.id,
-            business_name: businessName || 'My Business',
-          });
-        }
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        throw new Error(data.error || 'Failed to create account');
+      }
+
+      if (data.profile) {
+        await saveBusinessProfile(data.profile);
       } else {
         await saveBusinessProfile({
           business_name: businessName || 'My Business',

@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation';
 import { LayoutDashboard, Send, MessageSquareCheck, Settings, Plus, ExternalLink, Sparkles, Building2 } from 'lucide-react';
 import { GoogleLogo } from './GoogleLogo';
 import { BusinessProfile } from '@/lib/types';
-import { isSupabaseConfigured } from '@/lib/supabase';
 
 interface SidebarProps {
   profile?: BusinessProfile | null;
@@ -15,7 +14,7 @@ interface SidebarProps {
 
 export function Sidebar({ profile, onOpenCreateModal }: SidebarProps) {
   const pathname = usePathname();
-  const supabaseActive = isSupabaseConfigured();
+  const dbActive = typeof window !== 'undefined' && Boolean(profile?.id);
 
   const navItems = [
     { label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
@@ -106,13 +105,13 @@ export function Sidebar({ profile, onOpenCreateModal }: SidebarProps) {
           <div className="flex items-center gap-1.5">
             <div
               className={`w-2 h-2 rounded-full ${
-                supabaseActive ? 'bg-[#137333]' : 'bg-[#f9ab00]'
+                dbActive ? 'bg-[#137333]' : 'bg-[#f9ab00]'
               }`}
             />
-            <span>{supabaseActive ? 'Supabase Connected' : 'Local Storage Engine'}</span>
+            <span>{dbActive ? 'MongoDB Connected' : 'Local Storage Engine'}</span>
           </div>
           <Link href="/settings" className="hover:underline text-[10px]">
-            {supabaseActive ? 'Live' : 'Config'}
+            {dbActive ? 'Live' : 'Config'}
           </Link>
         </div>
       </div>

@@ -1,4 +1,3 @@
-import { supabase, isSupabaseConfigured } from './supabase';
 import { BusinessProfile, ReviewRequest } from './types';
 
 const STORAGE_KEYS = {
@@ -91,24 +90,21 @@ function setLocalItem<T>(key: string, value: T): void {
 }
 
 // -------------------------------------------------------------
-// BUSINESS PROFILE SERVICES
+// BUSINESS PROFILE SERVICES (MongoDB + LocalStorage Fallback)
 // -------------------------------------------------------------
 export async function getBusinessProfile(userId?: string): Promise<BusinessProfile | null> {
-  if (isSupabaseConfigured()) {
-    try {
-      let query = supabase.from('profiles').select('*');
-      if (userId) {
-        query = query.eq('user_id', userId);
+  try {
+    const url = userId ? `/api/profile?userId=${encodeURIComponent(userId)}` : '/api/profile';
+    const res = await fetch(url);
+    if (res.ok) {
+      const data = await res.json();
+      if (data.profile) {
+        setLocalItem(STORAGE_KEYS.PROFILE, data.profile);
+        return data.profile as BusinessProfile;
       }
-      const { data, error } = await query.limit(1).maybeSingle();
-      if (error) {
-        console.warn('Supabase profile fetch error, fallback to local:', error.message);
-      } else if (data) {
-        return data as BusinessProfile;
-      }
-    } catch (e) {
-      console.warn('Supabase fetch exception:', e);
     }
+  } catch (e) {
+    console.warn('API profile fetch fallback to local:', e);
   }
 
   // Fallback to local storage
@@ -128,22 +124,21 @@ export async function saveBusinessProfile(profile: Partial<BusinessProfile>): Pr
     updated_at: new Date().toISOString(),
   };
 
-  if (isSupabaseConfigured()) {
-    try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .upsert(updated)
-        .select()
-        .single();
-
-      if (!error && data) {
-        setLocalItem(STORAGE_KEYS.PROFILE, data);
-        return data as BusinessProfile;
+  try {
+    const res = await fetch('/api/profile', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updated),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.profile) {
+        setLocalItem(STORAGE_KEYS.PROFILE, data.profile);
+        return data.profile as BusinessProfile;
       }
-      console.warn('Supabase upsert profile warning:', error?.message);
-    } catch (e) {
-      console.warn('Supabase save error:', e);
     }
+  } catch (e) {
+    console.warn('API profile save fallback to local:', e);
   }
 
   setLocalItem(STORAGE_KEYS.PROFILE, updated);
@@ -151,27 +146,21 @@ export async function saveBusinessProfile(profile: Partial<BusinessProfile>): Pr
 }
 
 // -------------------------------------------------------------
-// REVIEW REQUESTS SERVICES
+// REVIEW REQUESTS SERVICES (MongoDB + LocalStorage Fallback)
 // -------------------------------------------------------------
 export async function getReviewRequests(businessId?: string): Promise<ReviewRequest[]> {
-  if (isSupabaseConfigured()) {
-    try {
-      let query = supabase
-        .from('review_requests')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (businessId) {
-        query = query.eq('business_id', businessId);
+  try {
+    const url = businessId ? `/api/requests?businessId=${encodeURIComponent(businessId)}` : '/api/requests';
+    const res = await fetch(url);
+    if (res.ok) {
+      const data = await res.json();
+      if (data.requests && data.requests.length > 0) {
+        setLocalItem(STORAGE_KEYS.REQUESTS, data.requests);
+        return data.requests as ReviewRequest[];
       }
-
-      const { data, error } = await query;
-      if (!error && data && data.length > 0) {
-        return data as ReviewRequest[];
-      }
-    } catch (e) {
-      console.warn('Supabase get requests error:', e);
     }
+  } catch (e) {
+    console.warn('API requests fetch fallback to local:', e);
   }
 
   // Local storage fallback
@@ -193,23 +182,22 @@ export async function createReviewRequest(
     updated_at: now,
   };
 
-  if (isSupabaseConfigured()) {
-    try {
-      const { data, error } = await supabase
-        .from('review_requests')
-        .insert(newRecord)
-        .select()
-        .single();
-
-      if (!error && data) {
+  try {
+    const res = await fetch('/api/requests', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newRecord),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.request) {
         const currentList = getLocalItem<ReviewRequest[]>(STORAGE_KEYS.REQUESTS, DEFAULT_REQUESTS);
-        setLocalItem(STORAGE_KEYS.REQUESTS, [data, ...currentList]);
-        return data as ReviewRequest;
+        setLocalItem(STORAGE_KEYS.REQUESTS, [data.request, ...currentList]);
+        return data.request as ReviewRequest;
       }
-      console.warn('Supabase insert request warning:', error?.message);
-    } catch (e) {
-      console.warn('Supabase create request error:', e);
     }
+  } catch (e) {
+    console.warn('API create request fallback to local:', e);
   }
 
   // Fallback to local storage
@@ -220,20 +208,16 @@ export async function createReviewRequest(
 }
 
 export async function getReviewRequestById(id: string): Promise<ReviewRequest | null> {
-  if (isSupabaseConfigured()) {
-    try {
-      const { data, error } = await supabase
-        .from('review_requests')
-        .select('*')
-        .eq('id', id)
-        .maybeSingle();
-
-      if (!error && data) {
-        return data as ReviewRequest;
+  try {
+    const res = await fetch(`/api/review/${encodeURIComponent(id)}`);
+    if (res.ok) {
+      const data = await res.json();
+      if (data.request) {
+        return data.request as ReviewRequest;
       }
-    } catch (e) {
-      console.warn('Supabase get by id error:', e);
     }
+  } catch (e) {
+    console.warn('API get review request by id fallback:', e);
   }
 
   const list = getLocalItem<ReviewRequest[]>(STORAGE_KEYS.REQUESTS, DEFAULT_REQUESTS);
@@ -260,21 +244,26 @@ export async function updateReviewRequest(
 ): Promise<ReviewRequest | null> {
   const now = new Date().toISOString();
 
-  if (isSupabaseConfigured()) {
-    try {
-      const { data, error } = await supabase
-        .from('review_requests')
-        .update({ ...updates, updated_at: now })
-        .eq('id', id)
-        .select()
-        .single();
-
-      if (!error && data) {
-        return data as ReviewRequest;
+  try {
+    const res = await fetch(`/api/review/${encodeURIComponent(id)}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updates),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.request) {
+        const list = getLocalItem<ReviewRequest[]>(STORAGE_KEYS.REQUESTS, DEFAULT_REQUESTS);
+        const index = list.findIndex((item) => item.id === id);
+        if (index !== -1) {
+          list[index] = data.request;
+          setLocalItem(STORAGE_KEYS.REQUESTS, list);
+        }
+        return data.request as ReviewRequest;
       }
-    } catch (e) {
-      console.warn('Supabase update request error:', e);
     }
+  } catch (e) {
+    console.warn('API update review request fallback:', e);
   }
 
   const list = getLocalItem<ReviewRequest[]>(STORAGE_KEYS.REQUESTS, DEFAULT_REQUESTS);
@@ -302,7 +291,7 @@ export async function getDashboardMetrics(businessId?: string) {
   const total = requests.length;
   const opened = requests.filter((r) => r.status === 'opened' || r.status === 'completed').length;
   const completed = requests.filter((r) => r.status === 'completed').length;
-  
+
   const completedReviews = requests.filter((r) => r.rating && r.rating > 0);
   const avgRating =
     completedReviews.length > 0

@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Mail, Lock, ArrowRight, Sparkles, CheckCircle2 } from 'lucide-react';
 import { GoogleLogo } from '@/components/GoogleLogo';
-import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -20,13 +19,17 @@ export default function LoginPage() {
     setError(null);
 
     try {
-      if (isSupabaseConfigured()) {
-        const { error: authError } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-        if (authError) throw authError;
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        throw new Error(data.error || 'Invalid login credentials');
       }
+
       // Success
       router.push('/dashboard');
     } catch (err: unknown) {

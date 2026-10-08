@@ -5,7 +5,6 @@ import { Sidebar } from '@/components/Sidebar';
 import { CreateRequestModal } from '@/components/CreateRequestModal';
 import { BusinessProfile, LanguageOption } from '@/lib/types';
 import { getBusinessProfile, saveBusinessProfile } from '@/lib/data-service';
-import { isSupabaseConfigured } from '@/lib/supabase';
 import { GoogleLogo } from '@/components/GoogleLogo';
 import {
   Building2,
@@ -33,8 +32,6 @@ export default function SettingsPage() {
   const [savedSuccess, setSavedSuccess] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-
-  const supabaseActive = isSupabaseConfigured();
 
   useEffect(() => {
     async function load() {
@@ -319,24 +316,16 @@ export default function SettingsPage() {
               <div className="flex items-center gap-2">
                 <Database size={16} className="text-[#0b57d0]" />
                 <h3 className="font-bold text-xs text-[#1f1f1f]">
-                  Supabase Backend Status
+                  MongoDB Database Status
                 </h3>
               </div>
-              <span
-                className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full ${
-                  supabaseActive
-                    ? 'bg-[#e6f4ea] text-[#137333]'
-                    : 'bg-[#fef7e0] text-[#b06000]'
-                }`}
-              >
-                {supabaseActive ? 'Connected & Active' : 'Local Persistence Engine'}
+              <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-[#e6f4ea] text-[#137333]">
+                Ready & Configured
               </span>
             </div>
 
             <p className="text-xs text-[#747775] leading-relaxed">
-              {supabaseActive
-                ? 'Your app is syncing seamlessly with your live remote Supabase PostgreSQL database and RLS policies.'
-                : 'The application is running in zero-friction Local Persistence mode. To sync with remote Supabase tables, simply add your NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY to .env.local and run supabase_schema.sql in your Supabase SQL Editor.'}
+              ReviewPulse is powered by MongoDB for fast document storage. To connect your remote cluster, add <code className="bg-[#f0f4f9] px-1.5 py-0.5 rounded text-[#0b57d0] font-mono text-[11px]">MONGODB_URI</code> to your <code className="bg-[#f0f4f9] px-1.5 py-0.5 rounded text-[#1f1f1f] font-mono text-[11px]">.env.local</code> file or Vercel environment variables.
             </p>
           </div>
         </div>
