@@ -93,20 +93,20 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fafd] flex">
-      {/* Desktop Fixed Left Sidebar */}
+    <div className="min-h-screen bg-[#f8fafd] flex flex-col md:flex-row pb-20 md:pb-0">
+      {/* Desktop & Mobile Responsive Sidebar */}
       <Sidebar profile={profile} onOpenCreateModal={() => setIsCreateModalOpen(true)} />
 
-      {/* Main Content Area (Desktop-first 1280-1440px friendly) */}
+      {/* Main Content Area */}
       <main className="flex-1 flex flex-col min-w-0">
-        {/* Top Bar Header */}
-        <header className="h-16 bg-white border-b border-[#e1e3e1] px-8 flex items-center justify-between sticky top-0 z-20">
+        {/* Desktop Top Bar Header */}
+        <header className="hidden md:flex h-16 bg-white border-b border-[#e1e3e1] px-8 items-center justify-between sticky top-0 z-20">
           <div className="flex items-center gap-3">
             <h1 className="text-lg font-bold text-[#1f1f1f] tracking-tight">
               Dashboard
             </h1>
             <span className="text-xs px-3 py-1 rounded-full bg-[#f0f4f9] text-[#444746] font-medium border border-[#e1e3e1]">
-              {profile?.business_name || 'Apex Dental Clinic'}
+              {profile?.business_name || 'My Business'}
             </span>
           </div>
 
@@ -122,28 +122,28 @@ export default function DashboardPage() {
         </header>
 
         {/* Dashboard Body */}
-        <div className="p-8 max-w-7xl mx-auto w-full space-y-8">
+        <div className="p-4 sm:p-6 md:p-8 max-w-7xl mx-auto w-full space-y-4 sm:space-y-6">
           {/* Welcome Banner with Google Review Link Card */}
-          <div className="bg-white rounded-3xl p-6 border border-[#e1e3e1] shadow-2xs flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <div className="bg-white rounded-3xl p-4 sm:p-6 border border-[#e1e3e1] shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="space-y-1">
               <div className="flex items-center gap-2">
                 <GoogleLogo size={20} />
-                <h2 className="text-xl font-bold text-[#1f1f1f]">
-                  {profile?.business_name}
+                <h2 className="text-lg sm:text-xl font-bold text-[#1f1f1f] truncate">
+                  {profile?.business_name || 'My Business'}
                 </h2>
               </div>
               <p className="text-xs text-[#747775]">
-                {profile?.business_category} • {profile?.city || 'Location not specified'} • Customer Wording Engine Active
+                {profile?.business_category || 'Services'} • {profile?.city || 'Location not set'} • Customer Wording Engine Active
               </p>
             </div>
 
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2.5">
               <button
                 onClick={handleCopyGoogleLink}
-                className="flex items-center gap-2 px-4 py-2 bg-[#f0f4f9] hover:bg-[#e8f0fe] text-[#0b57d0] rounded-full text-xs font-semibold border border-[#dadce0] transition-colors cursor-pointer"
+                className="flex items-center gap-2 px-3.5 py-2 bg-[#f0f4f9] hover:bg-[#e8f0fe] text-[#0b57d0] rounded-full text-xs font-semibold border border-[#dadce0] transition-colors cursor-pointer"
               >
                 {copiedLink ? <Check size={14} className="text-[#137333]" /> : <Copy size={14} />}
-                <span>{copiedLink ? 'Link Copied!' : 'Copy Google Review Link'}</span>
+                <span>{copiedLink ? 'Link Copied!' : 'Copy Review Link'}</span>
               </button>
 
               {profile?.google_review_link && (
@@ -151,17 +151,17 @@ export default function DashboardPage() {
                   href={profile.google_review_link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 px-4 py-2 bg-white text-[#444746] hover:text-[#0b57d0] rounded-full text-xs font-medium border border-[#dadce0] transition-colors"
+                  className="flex items-center gap-1.5 px-3.5 py-2 bg-white text-[#444746] hover:text-[#0b57d0] rounded-full text-xs font-medium border border-[#dadce0] transition-colors"
                 >
-                  <span>Test Google Dialog</span>
+                  <span>Test Dialog</span>
                   <ExternalLink size={13} />
                 </a>
               )}
             </div>
           </div>
 
-          {/* NotebookLM Style Pastel KPI Metric Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* KPI Metric Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {/* Total Requests Card (Mint Pastel) */}
             <div className="card-pastel-green rounded-3xl p-5 shadow-2xs flex flex-col justify-between transition-transform hover:-translate-y-0.5">
               <div className="flex items-center justify-between">

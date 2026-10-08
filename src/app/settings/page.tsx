@@ -87,15 +87,15 @@ export default function SettingsPage() {
       : `Hi Sarah, thank you for visiting ${businessName || 'our business'}! 🌟 Please share your experience and write a quick review on Google: https://reviewpulse.app/review/sample`;
 
   return (
-    <div className="min-h-screen bg-[#f8fafd] flex">
+    <div className="min-h-screen bg-[#f8fafd] flex flex-col md:flex-row pb-20 md:pb-0">
       <Sidebar profile={profile} onOpenCreateModal={() => setIsCreateModalOpen(true)} />
 
       <main className="flex-1 flex flex-col min-w-0">
-        <header className="h-16 bg-white border-b border-[#e1e3e1] px-8 flex items-center justify-between sticky top-0 z-20">
+        <header className="hidden md:flex h-16 bg-white border-b border-[#e1e3e1] px-8 items-center justify-between sticky top-0 z-20">
           <h1 className="text-lg font-bold text-[#1f1f1f]">Business Settings</h1>
         </header>
 
-        <div className="p-8 max-w-4xl mx-auto w-full space-y-6">
+        <div className="p-4 sm:p-6 md:p-8 max-w-4xl mx-auto w-full space-y-4 sm:space-y-6">
           {savedSuccess && (
             <div className="p-4 rounded-2xl bg-[#e6f4ea] border border-[#ceead6] text-[#137333] flex items-center gap-2 text-xs font-semibold animate-in fade-in">
               <Check size={16} />
@@ -104,7 +104,7 @@ export default function SettingsPage() {
           )}
 
           {/* Form Card */}
-          <div className="bg-white rounded-3xl border border-[#e1e3e1] shadow-2xs p-8">
+          <div className="bg-white rounded-3xl border border-[#e1e3e1] shadow-2xs p-4 sm:p-6 md:p-8">
             <form onSubmit={handleSave} className="space-y-6">
               <div>
                 <h2 className="text-base font-bold text-[#1f1f1f] mb-1">

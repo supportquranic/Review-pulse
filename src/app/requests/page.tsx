@@ -91,11 +91,11 @@ export default function RequestsPage() {
   });
 
   return (
-    <div className="min-h-screen bg-[#f8fafd] flex">
+    <div className="min-h-screen bg-[#f8fafd] flex flex-col md:flex-row pb-20 md:pb-0">
       <Sidebar profile={profile} onOpenCreateModal={() => setIsCreateModalOpen(true)} />
 
       <main className="flex-1 flex flex-col min-w-0">
-        <header className="h-16 bg-white border-b border-[#e1e3e1] px-8 flex items-center justify-between sticky top-0 z-20">
+        <header className="hidden md:flex h-16 bg-white border-b border-[#e1e3e1] px-8 items-center justify-between sticky top-0 z-20">
           <div className="flex items-center gap-3">
             <h1 className="text-lg font-bold text-[#1f1f1f]">Review Requests</h1>
             <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#f0f4f9] text-[#444746] font-semibold border border-[#e1e3e1]">
@@ -112,11 +112,11 @@ export default function RequestsPage() {
           </button>
         </header>
 
-        <div className="p-8 max-w-7xl mx-auto w-full space-y-6">
+        <div className="p-4 sm:p-6 md:p-8 max-w-7xl mx-auto w-full space-y-4 sm:space-y-6">
           {/* Filter & Search Bar */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            {/* NotebookLM Style Pill Tabs */}
-            <div className="flex items-center gap-2">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
+            {/* Pill Tabs */}
+            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
               {[
                 { id: 'all', label: 'All Requests' },
                 { id: 'sent', label: 'Sent' },
@@ -126,7 +126,7 @@ export default function RequestsPage() {
                 <button
                   key={tab.id}
                   onClick={() => setFilter(tab.id as 'all' | RequestStatus)}
-                  className={`pill-tab cursor-pointer ${
+                  className={`pill-tab cursor-pointer text-xs shrink-0 ${
                     filter === tab.id ? 'pill-tab-active' : 'pill-tab-inactive'
                   }`}
                 >
